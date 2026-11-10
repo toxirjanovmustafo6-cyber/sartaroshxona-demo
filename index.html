@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ORDA Sartaroshlik Ekotizimi | Shahar Xizmatlarini Raqamlashtirish</title>
+
+	<!-- Tailwind CSS CDN -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<!-- FontAwesome Icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+		rel="stylesheet">
+
+	<script>
+		tailwind.config = {
+			darkMode: 'class',
+			theme: {
+				extend: {
+					colors: {
+						gold: {
+							300: '#fde047',
+							400: '#facc15',
+							500: '#eab308',
+							600: '#ca8a04',
+						}
+					},
+					fontFamily: {
+						sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+						mono: ['"JetBrains Mono"', 'monospace'],
+					}
+				}
+			}
+		}
+	</script>
+
+	<style>
+		/* Dark Mode Defaults */
+		html.dark body {
+			background: #09090b;
+			background-image:
+				radial-gradient(at 50% 0%, rgba(234, 179, 8, 0.08) 0px, transparent 50%),
+				radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.02) 0px, transparent 50%);
+			color: #fafafa;
+		}
+
+		html.dark .glass-panel {
+			background: rgba(18, 18, 22, 0.90);
+			backdrop-filter: blur(16px);
+			-webkit-backdrop-filter: blur(16px);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8);
+		}
+
+		html.dark .glass-card {
+			background: rgba(255, 255, 255, 0.03);
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+		}
+
+		html.dark .glass-card:hover {
+			border-color: rgba(234, 179, 8, 0.4);
+		}
+
+		/* Light Mode Styles */
+		html:not(.dark) body {
+			background: #f8f9fa;
+			background-image:
+				radial-gradient(at 50% 0%, rgba(234, 179, 8, 0.12) 0px, transparent 45%),
+				radial-gradient(at 100% 100%, rgba(0, 0, 0, 0.03) 0px, transparent 40%);
+			color: #09090b;
+		}
+
+		html:not(.dark) .glass-panel {
+			background: rgba(255, 255, 255, 0.94);
+			backdrop-filter: blur(16px);
+			-webkit-backdrop-filter: blur(16px);
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.08);
+		}
+
+		html:not(.dark) .glass-card {
+			background: #ffffff;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+		}
+
+		html:not(.dark) .glass-card:hover {
+			border-color: rgba(202, 138, 4, 0.6);
+		}
+
+		/* Custom Scrollbar */
+		::-webkit-scrollbar {
+			width: 5px;
+			height: 5px;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: rgba(234, 179, 8, 0.4);
+			border-radius: 999px;
+		}
+	</style>
+</head>
+
+<body
+	class="flex flex-col min-h-screen antialiased selection:bg-amber-400 selection:text-black transition-colors duration-200">
+
+	<!-- TOP BAR: Demo Switcher + Tillar (UZ/RU/EN) + Kun/Tun (Theme) -->
+	<div
+		class="border-b border-amber-500/20 px-3 md:px-6 py-2 flex flex-wrap items-center justify-between gap-2.5 text-xs z-50 bg-black/90 dark:bg-zinc-950/95 text-zinc-300">
+		<!-- Tezkor Rollar -->
+		<div class="flex items-center gap-2 flex-wrap">
+			<span
+				class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold tracking-wider text-[11px]">
+				<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> <span data-i18n="demo_mode">DEMO
+					REJIMI</span>
+			</span>
+			<button onclick="quickLogin('client')"
+				class="px-2.5 py-1 rounded-lg glass-card hover:border-amber-400 transition flex items-center gap-1.5 border border-white/10 text-white font-medium text-[11px]">
+				<i class="fa-solid fa-user text-amber-400"></i> <span data-i18n="role_client_demo">Mijoz (Sardor)</span>
+			</button>
+			<button onclick="quickLogin('barber')"
+				class="px-2.5 py-1 rounded-lg glass-card hover:border-amber-400 transition flex items-center gap-1.5 border border-white/10 text-white font-medium text-[11px]">
+				<i class="fa-solid fa-scissors text-amber-400"></i> <span data-i18n="role_barber_demo">Sartarosh (Rustam
+					Usta)</span>
+			</button>
+			<button onclick="quickLogin('admin')"
+				class="px-2.5 py-1 rounded-lg glass-card hover:border-amber-400 transition flex items-center gap-1.5 border border-amber-500/30 text-amber-400 font-bold text-[11px]">
+				<i class="fa-solid fa-chart-line"></i> <span data-i18n="role_admin_demo">Boshqaruv Paneli</span>
+			</button>
+		</div>
+
+		<!-- O'ng tomon: Til tanlash + Kun/Tun almashtirgich + Chiqish -->
+		<div class="flex items-center gap-2">
+			<!-- Kun / Tun Tugmasi -->
+			<button onclick="toggleTheme()"
+				class="px-2.5 py-1 rounded-lg glass-card border border-white/10 text-amber-400 hover:border-amber-400 transition flex items-center gap-1.5 font-bold"
+				title="Kun / Tun rejimi">
+				<i id="themeIcon" class="fa-solid fa-sun"></i>
+				<span id="themeLabel" class="hidden sm:inline text-[11px]">Kun</span>
+			</button>
+
+			<!-- Til Selector (UZ / RU / EN) -->
+			<div class="flex items-center rounded-lg border border-white/10 overflow-hidden glass-card">
+				<button onclick="setLanguage('uz')" id="lang-uz"
+					class="px-2 py-1 text-[11px] font-bold bg-amber-400 text-black transition">UZ</button>
+				<button onclick="setLanguage('ru')" id="lang-ru"
+					class="px-2 py-1 text-[11px] font-bold text-zinc-400 hover:text-white transition">RU</button>
+				<button onclick="setLanguage('en')" id="lang-en"
+					class="px-2 py-1 text-[11px] font-bold text-zinc-400 hover:text-white transition">EN</button>
+			</div>
+
+			<button onclick="logout()" id="logoutBtn"
+				class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white border border-white/10 transition hidden"
+				title="Chiqish">
+				<i class="fa-solid fa-right-from-bracket"></i>
+			</button>
+		</div>
+	</div>
+
+	<!-- ASOSIY HEADER -->
+	<header
+		class="glass-panel border-b border-white/10 px-4 md:px-8 py-3.5 flex items-center justify-between sticky top-0 z-40 transition-colors">
+		<div class="flex items-center gap-3 cursor-pointer" onclick="navigateHome()">
+			<div
+				class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 p-[1px] shadow-lg shadow-amber-500/20 flex-shrink-0">
+				<div
+					class="w-full h-full bg-black rounded-[11px] flex items-center justify-center font-black text-amber-400 text-lg">
+					<i class="fa-solid fa-scissors text-sm"></i>
+				</div>
+			</div>
+			<div>
+				<div class="flex items-center gap-2">
+					<span class="font-black text-base tracking-wider dark:text-white text-zinc-950">ORDA BARBER</span>
+					<span
+						class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-amber-400/10 text-amber-500 dark:text-amber-400 border border-amber-400/30"
+						data-i18n="badge_ecosystem">Raqamli Tizim</span>
+				</div>
+				<p class="text-[10px] text-amber-500 dark:text-amber-400 font-semibold tracking-tight" data-i18n="dev_credit">
+					ORDA Jamoasi tomonidan ishlab chiqildi</p>
+			</div>
+		</div>
+
+		<!-- Foydalanuvchi ma'lumoti yoki Kirish tugmasi -->
+		<div class="flex items-center gap-3">
+			<div id="userBadge" class="hidden items-center gap-2.5 px-3 py-1.5 rounded-xl glass-card border border-white/10">
+				<div class="w-7 h-7 rounded-lg bg-amber-400 text-black flex items-center justify-center text-xs font-black"
+					id="badgeAvatar">U</div>
+				<div class="text-left leading-tight hidden md:block">
+					<p class="text-xs font-bold dark:text-white text-zinc-900" id="badgeName">Foydalanuvchi</p>
+					<p class="text-[10px] text-amber-500 dark:text-amber-400 font-medium" id="badgeRole">Mijoz</p>
+				</div>
+			</div>
+
+			<button id="authBtn" onclick="openAuthModal()"
+				class="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs shadow-lg shadow-amber-500/20 transition flex items-center gap-2">
+				<i class="fa-solid fa-arrow-right-to-bracket"></i>
+				<span data-i18n="btn_login_main">Tizimga Kirish</span>
+			</button>
+		</div>
+	</header>
+
+	<!-- ASOSIY KONTENT MAYDONI -->
+	<main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8 space-y-6">
+
+		<!-- XABARNOMA BANNERI (Toast) -->
+		<div id="appToast"
+			class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 px-4 py-3 rounded-2xl glass-panel border border-amber-400/40 text-amber-500 dark:text-amber-300 text-xs shadow-2xl">
+			<i class="fa-solid fa-circle-check text-amber-400 text-base"></i>
+			<span id="toastMsg">Amal muvaffaqiyatli bajarildi!</span>
+		</div>
+
+		<!-- 1. MIJOZ PORTALI (DEFAULT VIEW) -->
+		<section id="viewClient" class="space-y-6">
+			<!-- Banner / Search -->
+			<div class="relative overflow-hidden rounded-3xl glass-panel p-6 md:p-8 border border-white/10">
+				<div class="absolute -right-16 -top-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none">
+				</div>
+				<div class="max-w-2xl relative z-10">
+					<span
+						class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card text-amber-500 dark:text-amber-400 text-xs font-bold mb-3 border border-amber-500/30">
+						<i class="fa-solid fa-bolt"></i> <span data-i18n="hero_pill">Navbatsiz va Tezkor Bron Qilish</span>
+					</span>
+					<h1 class="text-3xl md:text-5xl font-black dark:text-white text-zinc-950 leading-tight">
+						<span data-i18n="hero_title_1">Shahardagi Eng Yaxshi Sartaroshlarni</span> <span
+							class="text-amber-500 dark:text-amber-400" data-i18n="hero_title_2">Tanlang va Band Qiling</span>
+					</h1>
+					<p class="text-zinc-500 dark:text-zinc-400 text-sm mt-3 leading-relaxed" data-i18n="hero_desc">
+						Ortiqcha navbat kutmasdan o'zingizga qulay vaqtni tanlang, aniq xizmat narxlarini ko'ring va xotirjam
+						qabulga boring.
+					</p>
+
+					<!-- Qidiruv va Filtr -->
+					<div class="mt-6 flex flex-col sm:flex-row gap-3">
+						<div class="relative flex-1">
+							<i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-zinc-400 text-sm"></i>
+							<input id="barberSearchInput" oninput="filterBarbers()" type="text"
+								placeholder="Sartaroshxona nomi yoki manzil bo'yicha..." data-i18n-ph="search_placeholder"
+								class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/10 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400 transition placeholder:text-zinc-400">
+						</div>
+						<select id="districtFilter" onchange="filterBarbers()"
+							class="px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+							<option value="all" data-i18n="districts_all">Barcha Tumanlar</option>
+							<option value="Yunusobod">Yunusobod</option>
+							<option value="Mirzo Ulug'bek">Mirzo Ulug'bek</option>
+							<option value="Chilonzor">Chilonzor</option>
+							<option value="Yakkasaroy">Yakkasaroy</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<!-- Sartaroshlar Grid -->
+			<div>
+				<div class="flex items-center justify-between mb-4">
+					<h2 class="text-lg font-bold dark:text-white text-zinc-950 flex items-center gap-2">
+						<i class="fa-solid fa-scissors text-amber-500 dark:text-amber-400"></i>
+						<span data-i18n="barber_list_heading">Shahardagi Sartaroshxonalar va Ustalar</span>
+					</h2>
+					<span id="barberCountBadge"
+						class="text-xs px-2.5 py-1 rounded-lg glass-card text-zinc-500 dark:text-zinc-400 border border-white/5">4
+						ta salon mavjud</span>
+				</div>
+
+				<div id="barberCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+					<!-- Dinamik joylanadi -->
+				</div>
+			</div>
+
+			<!-- Mijozning o'z buyurtmalari -->
+			<div id="clientOrdersSection" class="glass-panel p-6 rounded-3xl border border-white/10 hidden">
+				<h3 class="text-base font-bold dark:text-white text-zinc-950 mb-4 flex items-center gap-2">
+					<i class="fa-solid fa-calendar-check text-amber-500 dark:text-amber-400"></i> <span
+						data-i18n="client_orders_title">Mening Band Qilingan Vaqtlarim</span>
+				</h3>
+				<div id="clientOrdersList" class="space-y-3">
+					<!-- Buyurtmalar joylanadi -->
+				</div>
+			</div>
+		</section>
+
+		<!-- 2. SARTAROSH KABINETI (SAAS CRM & FINANCIAL MANAGEMENT) -->
+		<section id="viewBarber" class="space-y-6 hidden">
+			<!-- Sartarosh Profil Bosh sarlavhasi -->
+			<div
+				class="glass-panel p-6 rounded-3xl border border-amber-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+				<div class="flex items-center gap-4">
+					<div
+						class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-black text-2xl font-bold shadow-lg shadow-amber-500/20">
+						<i class="fa-solid fa-scissors"></i>
+					</div>
+					<div>
+						<div class="flex items-center gap-2">
+							<h2 class="text-xl font-bold dark:text-white text-zinc-950" id="barberStudioName">Barber Express Studio
+							</h2>
+							<span
+								class="text-[10px] px-2 py-0.5 rounded-full bg-amber-400/10 text-amber-500 dark:text-amber-400 border border-amber-400/30 font-bold"
+								data-i18n="active_barber">Faol Usta</span>
+						</div>
+						<p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5" id="barberMasterName">Usta: Rustam Karimov | Tel:
+							+998 (90) 123-45-67</p>
+					</div>
+				</div>
+
+				<div class="flex items-center gap-2 w-full md:w-auto">
+					<button onclick="openAddOfflineClientModal()"
+						class="flex-1 md:flex-initial px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20">
+						<i class="fa-solid fa-user-plus"></i>
+						<span data-i18n="btn_add_offline">Offlayn Mijoz Qo'shish</span>
+					</button>
+					<button onclick="openManageServicesModal()"
+						class="flex-1 md:flex-initial px-4 py-2.5 rounded-xl glass-card hover:bg-white/10 dark:text-white text-zinc-900 font-bold text-xs transition flex items-center justify-center gap-2 border border-zinc-200 dark:border-white/10">
+						<i class="fa-solid fa-sliders text-amber-500 dark:text-amber-400"></i>
+						<span data-i18n="btn_services_pricing">Xizmatlar & Narxlar</span>
+					</button>
+				</div>
+			</div>
+
+			<!-- Kassa va Kirim-Chiqim Statistikasi (Buxgalteriya) -->
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+				<div class="glass-panel p-5 rounded-2xl border border-white/5">
+					<div class="flex items-center justify-between text-zinc-500 dark:text-zinc-400 text-xs mb-2">
+						<span data-i18n="stat_today_income">Bugungi Kirim:</span>
+						<i class="fa-solid fa-coins text-amber-500 dark:text-amber-400"></i>
+					</div>
+					<p class="text-2xl font-black dark:text-white text-zinc-950" id="crmTodayIncome">420,000 so'm</p>
+					<p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1" data-i18n="stat_today_note">Bugun 7 ta mijozga
+						xizmat ko'rsatildi</p>
+				</div>
+
+				<div class="glass-panel p-5 rounded-2xl border border-white/5">
+					<div class="flex items-center justify-between text-zinc-500 dark:text-zinc-400 text-xs mb-2">
+						<span data-i18n="stat_month_revenue">Oylik Jami Tushum:</span>
+						<i class="fa-solid fa-wallet text-amber-500 dark:text-amber-400"></i>
+					</div>
+					<p class="text-2xl font-black dark:text-white text-zinc-950" id="crmMonthlyRevenue">12,650,000 so'm</p>
+					<p class="text-[11px] text-amber-500 dark:text-amber-400 mt-1 font-medium"><i
+							class="fa-solid fa-arrow-trend-up"></i> +18%</p>
+				</div>
+
+				<div class="glass-panel p-5 rounded-2xl border border-white/5">
+					<div class="flex items-center justify-between text-zinc-500 dark:text-zinc-400 text-xs mb-2">
+						<span data-i18n="stat_month_expenses">Oylik Xarajatlar:</span>
+						<button onclick="openAddExpenseModal()" class="text-amber-500 dark:text-amber-400 text-xs font-bold"
+							data-i18n="btn_add_expense_short">+ Qo'shish</button>
+					</div>
+					<p class="text-2xl font-black text-zinc-700 dark:text-zinc-300" id="crmMonthlyExpenses">2,800,000 so'm</p>
+					<p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1" data-i18n="stat_expense_note">Ijara, lezviya,
+						sarflov materiallar</p>
+				</div>
+
+				<div class="glass-panel p-5 rounded-2xl border border-amber-500/40 bg-amber-400/5">
+					<div class="flex items-center justify-between text-zinc-500 dark:text-zinc-400 text-xs mb-2">
+						<span class="font-bold text-amber-600 dark:text-amber-400" data-i18n="stat_net_profit">Sof Foyda
+							(Oylik):</span>
+						<i class="fa-solid fa-vault text-amber-500 dark:text-amber-400"></i>
+					</div>
+					<p class="text-2xl font-black text-amber-500 dark:text-amber-400" id="crmNetProfit">9,850,000 so'm</p>
+					<p class="text-[11px] text-zinc-500 mt-1" data-i18n="stat_net_note">Barcha xarajatlar chiqarilgach</p>
+				</div>
+			</div>
+
+			<!-- 2 ta Ustun: Buyurtmalar & Smart Retention SMS Tizimi -->
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+				<!-- Chap: Yangi kelgan Onlayn Buyurtmalar -->
+				<div class="lg:col-span-2 glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
+					<div class="flex items-center justify-between">
+						<h3 class="text-base font-bold dark:text-white text-zinc-950 flex items-center gap-2">
+							<i class="fa-solid fa-bell text-amber-500 dark:text-amber-400"></i>
+							<span data-i18n="crm_orders_heading">Yangi Qabul Qilingan Buyurtmalar</span>
+						</h3>
+						<span
+							class="text-xs px-2.5 py-1 rounded-lg bg-amber-400/10 text-amber-500 dark:text-amber-400 border border-amber-400/30"
+							id="crmPendingCount">3 ta kutilmoqda</span>
+					</div>
+
+					<div id="barberOrdersContainer" class="space-y-3">
+						<!-- Buyurtmalar yuklanadi -->
+					</div>
+				</div>
+
+				<!-- O'ng: SMART RETENTION (20-30 kunda Soch o'sganini eslatuvchi SMS moduli) -->
+				<div class="glass-panel p-6 rounded-3xl border border-amber-500/30 space-y-4">
+					<div class="flex items-center justify-between">
+						<div>
+							<span class="text-[10px] font-bold text-amber-500 dark:text-amber-400 uppercase tracking-wider">Smart
+								Retention</span>
+							<h3 class="text-base font-bold dark:text-white text-zinc-950" data-i18n="retention_title">Sochi O'sgan
+								Mijozlar</h3>
+						</div>
+						<div
+							class="w-8 h-8 rounded-lg bg-amber-400/10 text-amber-500 dark:text-amber-400 flex items-center justify-center text-sm border border-amber-400/20">
+							<i class="fa-solid fa-comments"></i>
+						</div>
+					</div>
+
+					<p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed" data-i18n="retention_desc">
+						Oxirgi tashrifiga 20-30 kundan oshgan mijozlarga usta nomidan avtomatlashtirilgan eslatma yuboring:
+					</p>
+
+					<!-- Sochi o'sgan mijozlar ro'yxati -->
+					<div id="overdueClientsList" class="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+						<!-- Dinamik generatsiya bo'ladi -->
+					</div>
+
+					<div class="pt-3 border-t border-zinc-200 dark:border-white/10">
+						<button onclick="sendBulkSmsNotification()"
+							class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2">
+							<i class="fa-solid fa-paper-plane"></i>
+							<span data-i18n="btn_send_bulk_sms">Barchasiga Eslatma SMS Yuborish</span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Mijozlar Boshqaruvi (CRM Jadvali va LTV) -->
+			<div class="glass-panel p-6 rounded-3xl border border-white/10">
+				<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+					<div>
+						<h3 class="text-base font-bold dark:text-white text-zinc-950 flex items-center gap-2">
+							<i class="fa-solid fa-users text-amber-500 dark:text-amber-400"></i>
+							<span data-i18n="crm_clients_heading">Mijozlar Bazasi va Ulardan Kelgan Jami Foyda (LTV)</span>
+						</h3>
+						<p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1" data-i18n="crm_clients_sub">Har bir mijozning
+							tarixi, telefon raqami va oxirgi kelgan vaqti</p>
+					</div>
+					<div class="relative w-full sm:w-64">
+						<i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-zinc-400 text-xs"></i>
+						<input id="crmClientSearch" oninput="renderCrmClients()" type="text"
+							placeholder="Ism yoki telefon qidirish..." data-i18n-ph="crm_search_ph"
+							class="w-full pl-9 pr-3 py-1.5 rounded-xl bg-black/5 dark:bg-black/50 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+					</div>
+				</div>
+
+				<div class="overflow-x-auto">
+					<table class="w-full text-left text-xs dark:text-zinc-300 text-zinc-700">
+						<thead
+							class="bg-black/5 dark:bg-white/5 uppercase text-[10px] text-zinc-500 dark:text-zinc-400 border-b border-zinc-200 dark:border-white/10">
+							<tr>
+								<th class="py-3 px-4" data-i18n="th_client_name">Mijoz Ismi</th>
+								<th class="py-3 px-4" data-i18n="th_phone">Telefon</th>
+								<th class="py-3 px-4" data-i18n="th_visits">Tashriflar</th>
+								<th class="py-3 px-4" data-i18n="th_ltv">Jami Daromad (LTV)</th>
+								<th class="py-3 px-4" data-i18n="th_last_visit">Oxirgi Tashrif</th>
+								<th class="py-3 px-4" data-i18n="th_status">Holat</th>
+								<th class="py-3 px-4 text-right" data-i18n="th_action">Amal</th>
+							</tr>
+						</thead>
+						<tbody id="crmClientsTableBody" class="divide-y divide-zinc-200 dark:divide-white/5">
+							<!-- CRM Mijozlar ro'yxati -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+		<!-- 3. TIZIM BOSHQARUVI / SHAHAR MONITORING PANELI -->
+		<section id="viewAdmin" class="space-y-6 hidden">
+			<!-- Monitoring Sarlavhasi -->
+			<div
+				class="glass-panel p-6 rounded-3xl border border-amber-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+				<div>
+					<span
+						class="text-xs font-bold uppercase tracking-wider text-amber-500 dark:text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/30"
+						data-i18n="admin_panel_badge">
+						Shahar Monitoring Paneli
+					</span>
+					<h2 class="text-2xl md:text-3xl font-extrabold dark:text-white text-zinc-950 mt-2"
+						data-i18n="admin_panel_title">
+						Shahardagi Sartaroshxona Xizmatlari Analitikasi
+					</h2>
+					<p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1" data-i18n="admin_panel_desc">Xizmatlar sohasini
+						raqamlashtirish, tushumlar shaffofligi va o'zini-o'zi band qilish hisoboti</p>
+				</div>
+
+				<div class="flex items-center gap-3">
+					<button onclick="exportCityReport()"
+						class="px-4 py-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 text-amber-500 dark:text-amber-400 border border-amber-400/40 text-xs font-bold transition flex items-center gap-2">
+						<i class="fa-solid fa-file-arrow-down"></i>
+						<span data-i18n="btn_export_report">Hisobotni Yuklash (PDF/Excel)</span>
+					</button>
+				</div>
+			</div>
+
+			<!-- Shahar KPI ko'rsatkichlari -->
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+				<div class="glass-panel p-5 rounded-2xl border border-white/5">
+					<p class="text-xs text-zinc-500 dark:text-zinc-400" data-i18n="kpi_total_barbers">Shahardagi Jami
+						Sartaroshlar:</p>
+					<p class="text-2xl font-black dark:text-white text-zinc-950 mt-1" id="adminTotalBarbers">42 ta</p>
+					<span class="text-[11px] text-amber-500 dark:text-amber-400 font-semibold"><i
+							class="fa-solid fa-circle-check"></i> 100% verifikatsiya</span>
+				</div>
+
+				<div class="glass-panel p-5 rounded-2xl border border-white/5">
+					<p class="text-xs text-zinc-500 dark:text-zinc-400" data-i18n="kpi_total_rev">Oylik Shahar Xizmat Aylanmasi:
+					</p>
+					<p class="text-2xl font-black text-amber-500 dark:text-amber-400 mt-1" id="adminTotalRevenue">184,500,000 so'm
+					</p>
+					<span class="text-[11px] text-zinc-400" data-i18n="kpi_rev_note">Shaffof qayd etilgan</span>
+				</div>
+
+				<div class="glass-panel p-5 rounded-2xl border border-white/5">
+					<p class="text-xs text-zinc-500 dark:text-zinc-400" data-i18n="kpi_total_orders">Onlayn Buyurtmalar:</p>
+					<p class="text-2xl font-black dark:text-white text-zinc-950 mt-1" id="adminTotalBookings">3,420 ta</p>
+					<span class="text-[11px] text-amber-500 dark:text-amber-400 font-semibold"><i class="fa-solid fa-clock"></i>
+						45 daq tejaldi</span>
+				</div>
+
+				<div class="glass-panel p-5 rounded-2xl border border-white/5">
+					<p class="text-xs text-zinc-500 dark:text-zinc-400" data-i18n="kpi_satisfaction">Aholi Qanoatlanish
+						Ko'rsatkichi:</p>
+					<p class="text-2xl font-black text-amber-500 dark:text-amber-400 mt-1">4.9 / 5.0</p>
+					<span class="text-[11px] text-zinc-400" data-i18n="kpi_reviews_based">Sharhlar va baholar asosida</span>
+				</div>
+			</div>
+
+			<!-- Shahardagi Sartaroshlarni Boshqarish va Verifikatsiya -->
+			<div class="glass-panel p-6 rounded-3xl border border-white/10">
+				<div class="flex items-center justify-between mb-4">
+					<h3 class="text-base font-bold dark:text-white text-zinc-950 flex items-center gap-2">
+						<i class="fa-solid fa-list-check text-amber-500 dark:text-amber-400"></i>
+						<span data-i18n="admin_registry_heading">Ro'yxatdan O'tgan Sartaroshxona va Salonlar Reyestri</span>
+					</h3>
+					<span class="text-xs text-zinc-400" data-i18n="admin_db_badge">Shahar Ma'lumotlar Bazasi</span>
+				</div>
+
+				<div class="overflow-x-auto">
+					<table class="w-full text-left text-xs dark:text-zinc-300 text-zinc-700">
+						<thead
+							class="bg-black/5 dark:bg-white/5 uppercase text-[10px] text-zinc-500 dark:text-zinc-400 border-b border-zinc-200 dark:border-white/10">
+							<tr>
+								<th class="py-3 px-4" data-i18n="th_salon_barber">Salon / Sartarosh</th>
+								<th class="py-3 px-4" data-i18n="th_district_addr">Tuman / Manzil</th>
+								<th class="py-3 px-4" data-i18n="th_phone">Telefon</th>
+								<th class="py-3 px-4" data-i18n="th_month_rev">Oylik Tushum</th>
+								<th class="py-3 px-4" data-i18n="th_rating">Reyting</th>
+								<th class="py-3 px-4" data-i18n="th_status">Status</th>
+								<th class="py-3 px-4 text-right" data-i18n="th_admin_decision">Tizim Qarori</th>
+							</tr>
+						</thead>
+						<tbody id="adminBarbersTableBody" class="divide-y divide-zinc-200 dark:divide-white/5">
+							<!-- Admin sartaroshlar ro'yxati -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+	</main>
+
+	<!-- FOOTER -->
+	<footer
+		class="border-t border-zinc-200 dark:border-white/10 glass-panel py-4 px-6 mt-12 text-center text-xs text-zinc-500 dark:text-zinc-400 transition-colors">
+		<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+			<div class="flex items-center gap-2">
+				<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+				<span class="font-bold dark:text-white text-zinc-950">ORDA Sartaroshlik Ekotizimi</span>
+				<span class="hidden sm:inline" data-i18n="footer_platform_desc">— Xizmat ko'rsatish sohasini raqamlashtirish va
+					monitoring platformasi</span>
+			</div>
+			<div class="text-amber-500 dark:text-amber-400 font-bold flex items-center gap-1.5">
+				<i class="fa-solid fa-shield-halved"></i>
+				<span data-i18n="dev_credit">ORDA Jamoasi tomonidan ishlab chiqildi</span>
+			</div>
+		</div>
+	</footer>
+
+	<!-- ==================== MODALLAR ==================== -->
+
+	<!-- 1. AUTH MODAL (KIRISH & RO'YXATDAN O'TISH) -->
+	<div id="authModal"
+		class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+		<div class="glass-panel w-full max-w-md rounded-3xl border border-white/15 p-6 relative">
+			<button onclick="closeAuthModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white transition">
+				<i class="fa-solid fa-xmark text-lg"></i>
+			</button>
+
+			<div class="text-center mb-6">
+				<h3 class="text-xl font-bold dark:text-white text-zinc-950" data-i18n="modal_auth_title">Tizimga Kirish</h3>
+				<p class="text-xs text-zinc-400 mt-1" data-i18n="modal_auth_desc">O'z rolingizni tanlang yoki hisobingizga
+					kiring</p>
+			</div>
+
+			<!-- Tablar: Kirish / Ro'yxatdan o'tish -->
+			<div
+				class="flex p-1 rounded-xl bg-black/5 dark:bg-white/5 border border-zinc-200 dark:border-white/10 mb-5 text-xs">
+				<button id="tabLoginBtn" onclick="switchAuthTab('login')"
+					class="flex-1 py-2 rounded-lg font-bold bg-amber-400 text-black transition"
+					data-i18n="tab_login">Kirish</button>
+				<button id="tabRegisterBtn" onclick="switchAuthTab('register')"
+					class="flex-1 py-2 rounded-lg font-bold text-zinc-400 hover:text-white transition"
+					data-i18n="tab_register">Sartarosh Ro'yxati</button>
+			</div>
+
+			<!-- Kirish Formasi -->
+			<form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-3.5">
+				<div>
+					<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+						data-i18n="lbl_login">Login yoki Telefon</label>
+					<input type="text" id="loginUsername" required placeholder="Masalan: rustam_barber yoki admin"
+						class="w-full px-3.5 py-2.5 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+				</div>
+				<div>
+					<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+						data-i18n="lbl_password">Maxfiy Parol</label>
+					<input type="password" id="loginPassword" required placeholder="Parolingizni kiriting"
+						class="w-full px-3.5 py-2.5 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+				</div>
+				<button type="submit"
+					class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs shadow-lg shadow-amber-500/20 transition"
+					data-i18n="btn_submit_login">
+					Hisobga Kirish
+				</button>
+			</form>
+
+			<!-- Sartarosh Ro'yxatdan O'tish Formasi -->
+			<form id="registerForm" onsubmit="handleRegisterSubmit(event)" class="space-y-3 hidden">
+				<div>
+					<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+						data-i18n="lbl_salon_name">Sartaroshxona / Salon Nomi</label>
+					<input type="text" id="regSalonName" required placeholder="Masalan: Gold Barber"
+						class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+				</div>
+				<div>
+					<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+						data-i18n="lbl_master_name">Usta Ism-Familiyasi</label>
+					<input type="text" id="regMasterName" required placeholder="Masalan: Jasur Komilov"
+						class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+				</div>
+				<div class="grid grid-cols-2 gap-2">
+					<div>
+						<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+							data-i18n="lbl_district">Tuman</label>
+						<select id="regDistrict"
+							class="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+							<option value="Yunusobod">Yunusobod</option>
+							<option value="Mirzo Ulug'bek">Mirzo Ulug'bek</option>
+							<option value="Chilonzor">Chilonzor</option>
+							<option value="Yakkasaroy">Yakkasaroy</option>
+						</select>
+					</div>
+					<div>
+						<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+							data-i18n="lbl_phone">Telefon</label>
+						<input type="tel" id="regPhone" required placeholder="+99890..."
+							class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+					</div>
+				</div>
+				<div class="grid grid-cols-2 gap-2">
+					<div>
+						<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1">Login</label>
+						<input type="text" id="regLogin" required placeholder="login_nomi"
+							class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+					</div>
+					<div>
+						<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+							data-i18n="lbl_password">Parol</label>
+						<input type="password" id="regPassword" required placeholder="••••••"
+							class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+					</div>
+				</div>
+				<button type="submit"
+					class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs shadow-lg shadow-amber-500/20 transition"
+					data-i18n="btn_submit_register">
+					Sartarosh Profilini Yaratish
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- 2. SARTAROSH SAHIFASI VA ONLAYN BRON QILISH MODALI -->
+	<div id="bookingModal"
+		class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+		<div
+			class="glass-panel w-full max-w-lg rounded-3xl border border-white/15 p-6 relative max-h-[90vh] overflow-y-auto">
+			<button onclick="closeBookingModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white transition">
+				<i class="fa-solid fa-xmark text-lg"></i>
+			</button>
+
+			<div class="flex items-center gap-3 mb-4">
+				<div
+					class="w-12 h-12 rounded-2xl bg-amber-400/10 border border-amber-400/20 text-amber-500 dark:text-amber-400 flex items-center justify-center text-xl">
+					<i class="fa-solid fa-scissors"></i>
+				</div>
+				<div>
+					<h3 class="text-lg font-bold dark:text-white text-zinc-950" id="modalBarberName">Barber Express</h3>
+					<p class="text-xs text-zinc-400" id="modalBarberAddress">Yunusobod tumani, 4-mavze</p>
+				</div>
+			</div>
+
+			<form onsubmit="handleBookingSubmit(event)" class="space-y-4">
+				<input type="hidden" id="bookingBarberId">
+
+				<!-- Xizmatni tanlash -->
+				<div>
+					<label class="block text-xs font-semibold dark:text-zinc-300 text-zinc-700 mb-2"
+						data-i18n="lbl_select_service">Kerakli Xizmat Turini Tanlang:</label>
+					<div id="modalServicesList" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+						<!-- Xizmatlar ro'yxati -->
+					</div>
+				</div>
+
+				<!-- Sana va Vaqt tanlash -->
+				<div class="grid grid-cols-2 gap-3">
+					<div>
+						<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+							data-i18n="lbl_choose_date">Sanani Tanlang</label>
+						<input type="date" id="bookingDate" required
+							class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+					</div>
+					<div>
+						<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+							data-i18n="lbl_choose_time">Bo'sh Vaqtni Tanlang</label>
+						<select id="bookingTime" required
+							class="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+							<option value="10:00">10:00</option>
+							<option value="11:00">11:00</option>
+							<option value="12:00">12:00</option>
+							<option value="14:00">14:00</option>
+							<option value="15:00">15:00</option>
+							<option value="16:00">16:00</option>
+							<option value="17:00">17:00</option>
+							<option value="18:00">18:00</option>
+							<option value="19:00">19:00</option>
+						</select>
+					</div>
+				</div>
+
+				<!-- Mijoz ma'lumotlari -->
+				<div class="space-y-2 pt-2 border-t border-zinc-200 dark:border-white/10">
+					<div>
+						<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+							data-i18n="lbl_client_full_name">Ism va Familiyangiz</label>
+						<input type="text" id="bookingClientName" required placeholder="Masalan: Sardor Azimov"
+							class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+					</div>
+					<div>
+						<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+							data-i18n="lbl_phone">Telefon Raqamingiz</label>
+						<input type="tel" id="bookingClientPhone" required placeholder="+998 90 123 45 67"
+							class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+					</div>
+				</div>
+
+				<button type="submit"
+					class="w-full py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs tracking-wide shadow-lg shadow-amber-500/20 transition"
+					data-i18n="btn_confirm_booking">
+					Vaqtni Band Qilish (Bron)
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- 3. OFFLINE MIJOZ QO'SHISH MODALI (SARTAROSH UCHUN) -->
+	<div id="offlineClientModal"
+		class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+		<div class="glass-panel w-full max-w-sm rounded-3xl border border-white/15 p-6 relative">
+			<button onclick="closeAddOfflineClientModal()"
+				class="absolute top-4 right-4 text-zinc-400 hover:text-white transition">
+				<i class="fa-solid fa-xmark text-lg"></i>
+			</button>
+
+			<h3 class="text-base font-bold dark:text-white text-zinc-950 mb-1" data-i18n="modal_off_title">Offlayn Mijoz
+				Qo'shish</h3>
+			<p class="text-xs text-zinc-400 mb-4" data-i18n="modal_off_desc">Salonga o'zi kirib kelgan mijozni bazaga kiritish
+				va xizmat hisobini qilish</p>
+
+			<form onsubmit="handleOfflineClientSubmit(event)" class="space-y-3">
+				<div>
+					<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+						data-i18n="lbl_client_name">Mijoz Ismi</label>
+					<input type="text" id="offClientName" required placeholder="Masalan: Akmal"
+						class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+				</div>
+				<div>
+					<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+						data-i18n="lbl_phone_sms">Telefon Raqami (SMS uchun)</label>
+					<input type="tel" id="offClientPhone" required placeholder="+998 9X XXX XX XX"
+						class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+				</div>
+				<div>
+					<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+						data-i18n="lbl_service_price">Xizmat Narxi (so'm)</label>
+					<input type="number" id="offClientPrice" required placeholder="50000"
+						class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+				</div>
+				<button type="submit"
+					class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs transition"
+					data-i18n="btn_save_client_cash">
+					Mijozni Saqlash & Kassaga Qo'shish
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- 4. XARAJAT QO'SHISH MODALI (SARTAROSH UCHUN) -->
+	<div id="addExpenseModal"
+		class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+		<div class="glass-panel w-full max-w-sm rounded-3xl border border-white/15 p-6 relative">
+			<button onclick="closeAddExpenseModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white transition">
+				<i class="fa-solid fa-xmark text-lg"></i>
+			</button>
+
+			<h3 class="text-base font-bold dark:text-white text-zinc-950 mb-1" data-i18n="modal_exp_title">Xarajat Kiritish
+			</h3>
+			<p class="text-xs text-zinc-400 mb-4" data-i18n="modal_exp_desc">Ijara, kosmetika, asboblar va boshqa xarajatlarni
+				hisobga olish</p>
+
+			<form onsubmit="handleAddExpenseSubmit(event)" class="space-y-3">
+				<div>
+					<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+						data-i18n="lbl_exp_reason">Xarajat Turi / Sababi</label>
+					<input type="text" id="expenseReason" required placeholder="Masalan: Soch uchun gel va lezviya"
+						class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+				</div>
+				<div>
+					<label class="block text-[11px] font-semibold dark:text-zinc-300 text-zinc-700 mb-1"
+						data-i18n="lbl_exp_amount">Summasi (so'm)</label>
+					<input type="number" id="expenseAmount" required placeholder="85000"
+						class="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none focus:border-amber-400">
+				</div>
+				<button type="submit"
+					class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 dark:text-white text-zinc-900 border border-zinc-300 dark:border-white/10 font-bold text-xs transition"
+					data-i18n="btn_record_expense">
+					Xarajatni Chiqimga Yozish
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- 5. XIZMATLAR VA NARXLARNI BOSHQARISH MODALI -->
+	<div id="manageServicesModal"
+		class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+		<div class="glass-panel w-full max-w-md rounded-3xl border border-white/15 p-6 relative">
+			<button onclick="closeManageServicesModal()"
+				class="absolute top-4 right-4 text-zinc-400 hover:text-white transition">
+				<i class="fa-solid fa-xmark text-lg"></i>
+			</button>
+
+			<h3 class="text-base font-bold dark:text-white text-zinc-950 mb-1" data-i18n="modal_serv_title">Xizmatlar va
+				Narxlar vitrinasi</h3>
+			<p class="text-xs text-zinc-400 mb-4" data-i18n="modal_serv_desc">Mijozlar ilovada ko'radigan turmaklash
+				xizmatlaringiz</p>
+
+			<div id="barberServicesCrudList" class="space-y-2 mb-4 max-h-48 overflow-y-auto pr-1">
+				<!-- CRUD Xizmatlar -->
+			</div>
+
+			<div class="pt-3 border-t border-zinc-200 dark:border-white/10">
+				<h4 class="text-xs font-bold text-amber-500 dark:text-amber-400 mb-2" data-i18n="btn_add_new_service">+ Yangi
+					Turmak / Xizmat Qo'shish</h4>
+				<div class="grid grid-cols-2 gap-2 mb-2">
+					<input type="text" id="newServiceName" placeholder="Xizmat nomi" data-i18n-ph="ph_service_name"
+						class="px-3 py-1.5 rounded-lg bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none">
+					<input type="number" id="newServicePrice" placeholder="Narxi (so'm)" data-i18n-ph="ph_price"
+						class="px-3 py-1.5 rounded-lg bg-black/5 dark:bg-black/60 border border-zinc-300 dark:border-white/10 dark:text-white text-zinc-900 text-xs outline-none">
+				</div>
+				<button onclick="addNewBarberService()"
+					class="w-full py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs transition"
+					data-i18n="btn_save_service">
+					Xizmatlar Ro'yxatiga Kiritish
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 6. SMART SMS SIMULYATSIYA MODALI (TELEFON KO'RINISHIDA) -->
+	<div id="smsModal"
+		class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+		<div
+			class="w-full max-w-sm rounded-[36px] bg-zinc-950 p-4 border-2 border-zinc-700 shadow-2xl relative text-zinc-200">
+			<!-- Phone Notch -->
+			<div class="w-24 h-3.5 bg-zinc-800 rounded-b-xl mx-auto mb-3"></div>
+
+			<div class="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
+				<div class="flex items-center gap-2">
+					<i class="fa-solid fa-comments text-amber-400 text-xs"></i>
+					<span class="text-xs font-bold text-white" id="smsModalHeader">SMS Xabarnoma</span>
+				</div>
+				<button onclick="closeSmsModal()"
+					class="text-zinc-400 hover:text-white text-xs font-bold px-2 py-0.5 rounded bg-white/10"
+					data-i18n="btn_close">Yopish</button>
+			</div>
+
+			<div
+				class="p-3.5 bg-zinc-900 rounded-2xl border border-amber-400/20 mb-4 min-h-[140px] flex flex-col justify-between">
+				<div class="flex items-center justify-between text-[10px] text-zinc-500 mb-1">
+					<span>ORDA SMS Shlyuzi</span>
+					<span id="smsTimeNow">Bugun 11:30</span>
+				</div>
+				<p class="text-xs font-mono text-amber-300 leading-relaxed" id="smsTextBody">
+					<!-- SMS matni -->
+				</p>
+				<div class="text-right text-[10px] text-amber-400 mt-2 font-semibold">
+					<i class="fa-solid fa-check-double"></i> <span data-i18n="sms_delivered">Yuborildi</span>
+				</div>
+			</div>
+
+			<p class="text-[11px] text-zinc-400 text-center mb-3" data-i18n="sms_modal_subnote">
+				Ushbu xabar mijozning telefoniga avtomatlashgan eslatma sifatida jo'natildi.
+			</p>
+
+			<button onclick="closeSmsModal()"
+				class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs transition"
+				data-i18n="btn_got_it">
+				Tushunarli
+			</button>
+		</div>
+	</div>
+
+
+	<!-- ==================== JAVASCRIPT LOGIKASI ==================== -->
+	<script>
+		// ==================== 1. I18N LUG'ATI (UZ / RU / EN) ====================
+		const i18n = {
+			uz: {
+				demo_mode: "DEMO REJIMI",
+				role_client_demo: "Mijoz (Sardor)",
+				role_barber_demo: "Sartarosh (Rustam Usta)",
+				role_admin_demo: "Boshqaruv Paneli",
+				badge_ecosystem: "Raqamli Tizim",
+				dev_credit: "ORDA Jamoasi tomonidan ishlab chiqildi",
+				btn_login_main: "Tizimga Kirish",
+				hero_pill: "Navbatsiz va Tezkor Bron Qilish",
+				hero_title_1: "Shahardagi Eng Yaxshi Sartaroshlarni",
+				hero_title_2: "Tanlang va Band Qiling",
+				hero_desc: "Ortiqcha navbat kutmasdan o'zingizga qulay vaqtni tanlang, aniq xizmat narxlarini ko'ring va xotirjam qabulga boring.",
+				search_placeholder: "Sartaroshxona nomi yoki manzil bo'yicha...",
+				districts_all: "Barcha Tumanlar",
+				barber_list_heading: "Shahardagi Sartaroshxonalar va Ustalar",
+				client_orders_title: "Mening Band Qilingan Vaqtlarim",
+				active_barber: "Faol Usta",
+				btn_add_offline: "Offlayn Mijoz Qo'shish",
+				btn_services_pricing: "Xizmatlar & Narxlar",
+				stat_today_income: "Bugungi Kirim:",
+				stat_today_note: "Bugun 7 ta mijozga xizmat ko'rsatildi",
+				stat_month_revenue: "Oylik Jami Tushum:",
+				stat_month_expenses: "Oylik Xarajatlar:",
+				btn_add_expense_short: "+ Qo'shish",
+				stat_expense_note: "Ijara, lezviya, sarflov materiallar",
+				stat_net_profit: "Sof Foyda (Oylik):",
+				stat_net_note: "Barcha xarajatlar chiqarilgach",
+				crm_orders_heading: "Yangi Qabul Qilingan Buyurtmalar",
+				retention_title: "Sochi O'sgan Mijozlar",
+				retention_desc: "Oxirgi tashrifiga 20-30 kundan oshgan mijozlarga usta nomidan avtomatlashtirilgan eslatma yuboring:",
+				btn_send_bulk_sms: "Barchasiga Eslatma SMS Yuborish",
+				crm_clients_heading: "Mijozlar Bazasi va Ulardan Kelgan Jami Foyda (LTV)",
+				crm_clients_sub: "Har bir mijozning tarixi, telefon raqami va oxirgi kelgan vaqti",
+				crm_search_ph: "Ism yoki telefon qidirish...",
+				th_client_name: "Mijoz Ismi",
+				th_phone: "Telefon",
+				th_visits: "Tashriflar",
+				th_ltv: "Jami Daromad (LTV)",
+				th_last_visit: "Oxirgi Tashrif",
+				th_status: "Holat",
+				th_action: "Amal",
+				admin_panel_badge: "Shahar Monitoring Paneli",
+				admin_panel_title: "Shahardagi Sartaroshxona Xizmatlari Analitikasi",
+				admin_panel_desc: "Xizmatlar sohasini raqamlashtirish, tushumlar shaffofligi va o'zini-o'zi band qilish hisoboti",
+				btn_export_report: "Hisobotni Yuklash (PDF/Excel)",
+				kpi_total_barbers: "Shahardagi Jami Sartaroshlar:",
+				kpi_total_rev: "Oylik Shahar Xizmat Aylanmasi:",
+				kpi_rev_note: "Shaffof qayd etilgan",
+				kpi_total_orders: "Onlayn Buyurtmalar:",
+				kpi_satisfaction: "Aholi Qanoatlanish Ko'rsatkichi:",
+				kpi_reviews_based: "Sharhlar va baholar asosida",
+				admin_registry_heading: "Ro'yxatdan O'tgan Sartaroshxona va Salonlar Reyestri",
+				admin_db_badge: "Shahar Ma'lumotlar Bazasi",
+				th_salon_barber: "Salon / Sartarosh",
+				th_district_addr: "Tuman / Manzil",
+				th_month_rev: "Oylik Tushum",
+				th_rating: "Reyting",
+				th_admin_decision: "Tizim Qarori",
+				footer_platform_desc: "— Xizmat ko'rsatish sohasini raqamlashtirish va monitoring platformasi",
+				modal_auth_title: "Tizimga Kirish",
+				modal_auth_desc: "O'z rolingizni tanlang yoki hisobingizga kiring",
+				tab_login: "Kirish",
+				tab_register: "Sartarosh Ro'yxati",
+				lbl_login: "Login yoki Telefon",
+				lbl_password: "Maxfiy Parol",
+				btn_submit_login: "Hisobga Kirish",
+				lbl_salon_name: "Sartaroshxona / Salon Nomi",
+				lbl_master_name: "Usta Ism-Familiyasi",
+				lbl_district: "Tuman",
+				lbl_phone: "Telefon",
+				btn_submit_register: "Sartarosh Profilini Yaratish",
+				lbl_select_service: "Kerakli Xizmat Turini Tanlang:",
+				lbl_choose_date: "Sanani Tanlang",
+				lbl_choose_time: "Bo'sh Vaqtni Tanlang",
+				lbl_client_full_name: "Ism va Familiyangiz",
+				btn_confirm_booking: "Vaqtni Band Qilish (Bron)",
+				modal_off_title: "Offlayn Mijoz Qo'shish",
+				modal_off_desc: "Salonga o'zi kirib kelgan mijozni bazaga kiritish va xizmat hisobini qilish",
+				lbl_client_name: "Mijoz Ismi",
+				lbl_phone_sms: "Telefon Raqami (SMS uchun)",
+				lbl_service_price: "Xizmat Narxi (so'm)",
+				btn_save_client_cash: "Mijozni Saqlash & Kassaga Qo'shish",
+				modal_exp_title: "Xarajat Kiritish",
+				modal_exp_desc: "Ijara, kosmetika, asboblar va boshqa xarajatlarni hisobga olish",
+				lbl_exp_reason: "Xarajat Turi / Sababi",
+				lbl_exp_amount: "Summasi (so'm)",
+				btn_record_expense: "Xarajatni Chiqimga Yozish",
+				modal_serv_title: "Xizmatlar va Narxlar vitrinasi",
+				modal_serv_desc: "Mijozlar ilovada ko'radigan turmaklash xizmatlaringiz",
+				btn_add_new_service: "+ Yangi Turmak / Xizmat Qo'shish",
+				ph_service_name: "Xizmat nomi",
+				ph_price: "Narxi (so'm)",
+				btn_save_service: "Xizmatlar Ro'yxatiga Kiritish",
+				btn_close: "Yopish",
+				sms_delivered: "Yuborildi",
+				sms_modal_subnote: "Ushbu xabar mijozning telefoniga avtomatlashgan eslatma sifatida jo'natildi.",
+				btn_got_it: "Tushunarli",
+				toast_success: "Amal muvaffaqiyatli bajarildi!",
+				days_ago_suffix: "kun oldin soch oldirgan",
+				btn_remind: "Eslatish",
+				btn_book_time: "Vaqtni Tanlash & Bron Qilish",
+				popular_services: "Mashhur Xizmatlar:"
+			},
+			ru: {
+				demo_mode: "ДЕМО РЕЖИМ",
+				role_client_demo: "Клиент (Сардор)",
+				role_barber_demo: "Барбер (Рустам)",
+				role_admin_demo: "Панель Управления",
+				badge_ecosystem: "Цифровая Система",
+				dev_credit: "Разработано командой ORDA",
+				btn_login_main: "Войти в систему",
+				hero_pill: "Быстрая запись без очередей",
+				hero_title_1: "Лучшие барберы города —",
+				hero_title_2: "Выберите и Забронируйте",
+				hero_desc: "Выбирайте удобное время без очередей, смотрите точные цены на услуги и посещайте мастеров с комфортом.",
+				search_placeholder: "Поиск по названию салона или адресу...",
+				districts_all: "Все Районы",
+				barber_list_heading: "Барбершопы и Мастера города",
+				client_orders_title: "Мои Забронированные Визиты",
+				active_barber: "Активный Мастер",
+				btn_add_offline: "Добавить оффлайн-клиента",
+				btn_services_pricing: "Услуги и Цены",
+				stat_today_income: "Доход за сегодня:",
+				stat_today_note: "Сегодня обслужено 7 клиентов",
+				stat_month_revenue: "Общий месячный оборот:",
+				stat_month_expenses: "Расходы за месяц:",
+				btn_add_expense_short: "+ Добавить",
+				stat_expense_note: "Аренда, лезвия, расходники",
+				stat_net_profit: "Чистая прибыль (мес):",
+				stat_net_note: "После вычета всех расходов",
+				crm_orders_heading: "Новые Онлайн Заявки",
+				retention_title: "Клиенты с отросшими волосами",
+				retention_desc: "Отправьте умное напоминание клиентам, стригшимся более 20-30 дней назад:",
+				btn_send_bulk_sms: "Отправить SMS всем клиентам",
+				crm_clients_heading: "База Клиентов и Общий Доход (LTV)",
+				crm_clients_sub: "История посещений, контакты и дата последнего визита каждого клиента",
+				crm_search_ph: "Поиск по имени или телефону...",
+				th_client_name: "Имя Клиента",
+				th_phone: "Телефон",
+				th_visits: "Визиты",
+				th_ltv: "Всего принес (LTV)",
+				th_last_visit: "Посл. визит",
+				th_status: "Статус",
+				th_action: "Действие",
+				admin_panel_badge: "Панель Городского Мониторинга",
+				admin_panel_title: "Аналитика Сферы Барбершопов Города",
+				admin_panel_desc: "Цифровизация сферы услуг, прозрачность выручки и учет самозанятых мастеров",
+				btn_export_report: "Скачать отчет (PDF/Excel)",
+				kpi_total_barbers: "Всего Барберов в Городе:",
+				kpi_total_rev: "Месячный Оборот Услуг:",
+				kpi_rev_note: "Прозрачно зафиксировано",
+				kpi_total_orders: "Онлайн Бронирований:",
+				kpi_satisfaction: "Индекс Удовлетворенности:",
+				kpi_reviews_based: "На основе оценок и отзывов",
+				admin_registry_heading: "Реестр Зарегистрированных Салонов и Барберов",
+				admin_db_badge: "Городская База Данных",
+				th_salon_barber: "Салон / Мастер",
+				th_district_addr: "Район / Адрес",
+				th_month_rev: "Мес. Выручка",
+				th_rating: "Рейтинг",
+				th_admin_decision: "Решение",
+				footer_platform_desc: "— Платформа цифровизации и мониторинга сферы услуг",
+				modal_auth_title: "Вход в Систему",
+				modal_auth_desc: "Выберите свою роль или войдите в личный кабинет",
+				tab_login: "Вход",
+				tab_register: "Регистрация Барбера",
+				lbl_login: "Логин или Телефон",
+				lbl_password: "Пароль",
+				btn_submit_login: "Войти в кабинет",
+				lbl_salon_name: "Название Салона",
+				lbl_master_name: "Ф.И.О. Мастера",
+				lbl_district: "Район",
+				lbl_phone: "Телефон",
+				btn_submit_register: "Создать Профиль Барбера",
+				lbl_select_service: "Выберите необходимую услугу:",
+				lbl_choose_date: "Выберите Дату",
+				lbl_choose_time: "Выберите Время",
+				lbl_client_full_name: "Ваше Имя и Фамилия",
+				btn_confirm_booking: "Забронировать Время",
+				modal_off_title: "Добавить оффлайн-клиента",
+				modal_off_desc: "Внести клиента с улицы в базу и учесть оплату в кассе",
+				lbl_client_name: "Имя Клиента",
+				lbl_phone_sms: "Номер телефона (для SMS)",
+				lbl_service_price: "Стоимость Услуги (сум)",
+				btn_save_client_cash: "Сохранить и Внести в Кассу",
+				modal_exp_title: "Внести Расход",
+				modal_exp_desc: "Учет аренды, косметики, инструментов и прочих расходов",
+				lbl_exp_reason: "Статья Расхода / Причина",
+				lbl_exp_amount: "Сумма (сум)",
+				btn_record_expense: "Списать Расход",
+				modal_serv_title: "Витрина Услуг и Прайс-лист",
+				modal_serv_desc: "Услуги и цены, отображаемые клиентам в приложении",
+				btn_add_new_service: "+ Добавить новую услугу",
+				ph_service_name: "Название услуги",
+				ph_price: "Цена (сум)",
+				btn_save_service: "Внести в список услуг",
+				btn_close: "Закрыть",
+				sms_delivered: "Доставлено",
+				sms_modal_subnote: "Это сообщение было отправлено на телефон клиента в виде автонапоминания.",
+				btn_got_it: "Понятно",
+				toast_success: "Действие успешно выполнено!",
+				days_ago_suffix: "дней назад была стрижка",
+				btn_remind: "Напомнить",
+				btn_book_time: "Выбрать время и бронировать",
+				popular_services: "Популярные Услуги:"
+			},
+			en: {
+				demo_mode: "DEMO MODE",
+				role_client_demo: "Client (Sardor)",
+				role_barber_demo: "Barber (Rustam)",
+				role_admin_demo: "Admin Panel",
+				badge_ecosystem: "Digital System",
+				dev_credit: "Developed by ORDA Team",
+				btn_login_main: "Sign In",
+				hero_pill: "Quick Booking Without Queues",
+				hero_title_1: "Best Barbers in Town —",
+				hero_title_2: "Select and Book Instantly",
+				hero_desc: "Skip long queues, pick your convenient time slot, see transparent pricing and enjoy premium grooming.",
+				search_placeholder: "Search barbershop by name or address...",
+				districts_all: "All Districts",
+				barber_list_heading: "City Barbershops & Masters",
+				client_orders_title: "My Booked Appointments",
+				active_barber: "Active Master",
+				btn_add_offline: "Add Walk-in Client",
+				btn_services_pricing: "Services & Pricing",
+				stat_today_income: "Today's Income:",
+				stat_today_note: "7 clients served today",
+				stat_month_revenue: "Monthly Gross Revenue:",
+				stat_month_expenses: "Monthly Expenses:",
+				btn_add_expense_short: "+ Add",
+				stat_expense_note: "Rent, blades, cosmetics",
+				stat_net_profit: "Net Profit (Monthly):",
+				stat_net_note: "After all business expenses",
+				crm_orders_heading: "New Incoming Bookings",
+				retention_title: "Hair Grown Retention List",
+				retention_desc: "Automated smart notifications for clients who visited 20-30+ days ago:",
+				btn_send_bulk_sms: "Send Bulk Reminder SMS",
+				crm_clients_heading: "Client Database & Lifetime Value (LTV)",
+				crm_clients_sub: "Visit history, phone numbers, and last haircut date",
+				crm_search_ph: "Search by name or phone...",
+				th_client_name: "Client Name",
+				th_phone: "Phone",
+				th_visits: "Visits",
+				th_ltv: "Total Spent (LTV)",
+				th_last_visit: "Last Visit",
+				th_status: "Status",
+				th_action: "Action",
+				admin_panel_badge: "City Monitoring Panel",
+				admin_panel_title: "City Grooming Industry Analytics",
+				admin_panel_desc: "Service industry digitalization, revenue transparency, and self-employment registry",
+				btn_export_report: "Download Report (PDF/Excel)",
+				kpi_total_barbers: "Total Barbers in City:",
+				kpi_total_rev: "Monthly City Turnover:",
+				kpi_rev_note: "Recorded transparently",
+				kpi_total_orders: "Online Appointments:",
+				kpi_satisfaction: "Satisfaction Index:",
+				kpi_reviews_based: "Based on ratings & feedback",
+				admin_registry_heading: "Registered Barbershops & Salons Registry",
+				admin_db_badge: "City Database",
+				th_salon_barber: "Salon / Master",
+				th_district_addr: "District / Address",
+				th_month_rev: "Monthly Rev.",
+				th_rating: "Rating",
+				th_admin_decision: "Action",
+				footer_platform_desc: "— Public service digitalization and monitoring ecosystem",
+				modal_auth_title: "Platform Sign In",
+				modal_auth_desc: "Choose your role or log into your account",
+				tab_login: "Sign In",
+				tab_register: "Barber Registration",
+				lbl_login: "Login or Phone",
+				lbl_password: "Password",
+				btn_submit_login: "Log In",
+				lbl_salon_name: "Salon / Studio Name",
+				lbl_master_name: "Master Full Name",
+				lbl_district: "District",
+				lbl_phone: "Phone Number",
+				btn_submit_register: "Create Barber Profile",
+				lbl_select_service: "Choose Required Service:",
+				lbl_choose_date: "Select Date",
+				lbl_choose_time: "Select Time Slot",
+				lbl_client_full_name: "Your Full Name",
+				btn_confirm_booking: "Confirm Booking",
+				modal_off_title: "Add Walk-in Client",
+				modal_off_desc: "Register a walk-in client and add payment to register",
+				lbl_client_name: "Client Name",
+				lbl_phone_sms: "Phone Number (for SMS)",
+				lbl_service_price: "Service Price (UZS)",
+				btn_save_client_cash: "Save & Add to Cash Register",
+				modal_exp_title: "Record Business Expense",
+				modal_exp_desc: "Track salon rent, blades, cosmetics, and utilities",
+				lbl_exp_reason: "Expense Reason / Category",
+				lbl_exp_amount: "Amount (UZS)",
+				btn_record_expense: "Record Expense",
+				modal_serv_title: "Services & Price Showcase",
+				modal_serv_desc: "List of grooming services shown to clients in app",
+				btn_add_new_service: "+ Add New Service",
+				ph_service_name: "Service Name",
+				ph_price: "Price (UZS)",
+				btn_save_service: "Add to Services List",
+				btn_close: "Close",
+				sms_delivered: "Delivered",
+				sms_modal_subnote: "This message was automatically dispatched to the client's phone.",
+				btn_got_it: "Understood",
+				toast_success: "Action completed successfully!",
+				days_ago_suffix: "days since last visit",
+				btn_remind: "Remind",
+				btn_book_time: "Select Time & Book",
+				popular_services: "Popular Services:"
+			}
+		}
+
+		let currentLang = localStorage.getItem('orda_lang') || 'uz'
+
+		function setLanguage(lang) {
+			currentLang = lang
+			localStorage.setItem('orda_lang', lang)
+			applyTranslations()
+			renderBarbersList()
+			renderBarberDashboard()
+			renderAdminDashboard()
+			updateLanguageUI()
+		}
+
+		function applyTranslations() {
+			const dict = i18n[currentLang] || i18n.uz
+
+			// data-i18n elementlari
+			document.querySelectorAll('[data-i18n]').forEach(el => {
+				const key = el.getAttribute('data-i18n')
+				if (dict[key]) {
+					el.innerText = dict[key]
+				}
+			})
+
+			// data-i18n-ph (placeholders)
+			document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+				const key = el.getAttribute('data-i18n-ph')
+				if (dict[key]) {
+					el.placeholder = dict[key]
+				}
+			})
+		}
+
+		function updateLanguageUI() {
+			['uz', 'ru', 'en'].forEach(lang => {
+				const btn = document.getElementById(`lang-${lang}`)
+				if (!btn) return
+				if (lang === currentLang) {
+					btn.className = "px-2 py-1 text-[11px] font-bold bg-amber-400 text-black transition"
+				} else {
+					btn.className = "px-2 py-1 text-[11px] font-bold text-zinc-400 hover:text-white transition"
+				}
+			})
+		}
+
+		// ==================== 2. KUN / TUN REJIMI (THEME) ====================
+		let currentTheme = localStorage.getItem('orda_theme') || 'dark'
+
+		function initTheme() {
+			if (currentTheme === 'dark') {
+				document.documentElement.classList.add('dark')
+				document.getElementById('themeIcon').className = "fa-solid fa-sun"
+				document.getElementById('themeLabel').innerText = (currentLang === 'uz' ? 'Kun' : currentLang === 'ru' ? 'День' : 'Light')
+			} else {
+				document.documentElement.classList.remove('dark')
+				document.getElementById('themeIcon').className = "fa-solid fa-moon text-zinc-800"
+				document.getElementById('themeLabel').innerText = (currentLang === 'uz' ? 'Tun' : currentLang === 'ru' ? 'Ночь' : 'Dark')
+			}
+		}
+
+		function toggleTheme() {
+			if (document.documentElement.classList.contains('dark')) {
+				document.documentElement.classList.remove('dark')
+				currentTheme = 'light'
+			} else {
+				document.documentElement.classList.add('dark')
+				currentTheme = 'dark'
+			}
+			localStorage.setItem('orda_theme', currentTheme)
+			initTheme()
+		}
+
+
+		// ==================== 3. DATA & STATE MANAGEMENT ====================
+		const initialBarbers = [
+			{
+				id: "barber-1",
+				salonName: "Barber Express Studio",
+				masterName: "Rustam Karimov",
+				phone: "+998 (90) 123-45-67",
+				district: "Yunusobod",
+				address: "Amir Temur ko'chasi, 45-uy",
+				login: "rustam_barber",
+				password: "123",
+				rating: 4.9,
+				reviewsCount: 184,
+				verified: true,
+				monthlyRevenue: 12650000,
+				monthlyExpenses: 2800000,
+				services: [
+					{ id: "s1", name: "Klassik Soch Turmagi", price: 60000, duration: "30 daq" },
+					{ id: "s2", name: "Soqol Tekislash va Parvarish", price: 40000, duration: "25 daq" },
+					{ id: "s3", name: "VIP Kompleks (Soch + Soqol)", price: 110000, duration: "60 daq" },
+					{ id: "s4", name: "Bolalar Soch Turmagi", price: 45000, duration: "25 daq" }
+				]
+			},
+			{
+				id: "barber-2",
+				salonName: "Gentleman's Club Tashkent",
+				masterName: "Bobur Mirzayev",
+				phone: "+998 (97) 777-12-34",
+				district: "Mirzo Ulug'bek",
+				address: "Mustaqillik shoh ko'chasi, 12",
+				login: "bobur_gentle",
+				password: "123",
+				rating: 4.8,
+				reviewsCount: 142,
+				verified: true,
+				monthlyRevenue: 16800000,
+				monthlyExpenses: 4200000,
+				services: [
+					{ id: "s201", name: "Prezident Turmagi", price: 80000, duration: "40 daq" },
+					{ id: "s202", name: "Soqol Dizayni", price: 50000, duration: "30 daq" }
+				]
+			},
+			{
+				id: "barber-3",
+				salonName: "Elite Barbershop Chilonzor",
+				masterName: "Farrux Zokirov",
+				phone: "+998 (93) 555-88-99",
+				district: "Chilonzor",
+				address: "Bunyodkor shoh ko'chasi, 23",
+				login: "farrux_elite",
+				password: "123",
+				rating: 4.7,
+				reviewsCount: 96,
+				verified: true,
+				monthlyRevenue: 9400000,
+				monthlyExpenses: 1900000,
+				services: [
+					{ id: "s301", name: "Klassik Soch Olish", price: 50000, duration: "30 daq" },
+					{ id: "s302", name: "Yuz Massaji va Parvarish", price: 40000, duration: "20 daq" }
+				]
+			},
+			{
+				id: "barber-4",
+				salonName: "Old School Barber",
+				masterName: "Temur Aliyev",
+				phone: "+998 (91) 333-22-11",
+				district: "Yakkasaroy",
+				address: "Shota Rustaveli ko'chasi, 56",
+				login: "temur_old",
+				password: "123",
+				rating: 4.9,
+				reviewsCount: 210,
+				verified: true,
+				monthlyRevenue: 14200000,
+				monthlyExpenses: 3100000,
+				services: [
+					{ id: "s401", name: "Klassik Fade Turmagi", price: 70000, duration: "35 daq" },
+					{ id: "s402", name: "Issiq Sochiq bilan Soqol Olish", price: 50000, duration: "30 daq" }
+				]
+			}
+		]
+
+		const initialBookings = [
+			{
+				id: "bk-1",
+				barberId: "barber-1",
+				barberName: "Barber Express Studio",
+				clientName: "Sardor Azimov",
+				clientPhone: "+998 90 123 45 67",
+				serviceName: "Klassik Soch Turmagi",
+				price: 60000,
+				date: "2026-11-10",
+				time: "14:00",
+				status: "Tasdiqlangan"
+			},
+			{
+				id: "bk-2",
+				barberId: "barber-1",
+				barberName: "Barber Express Studio",
+				clientName: "Azizbek Rahimov",
+				clientPhone: "+998 94 444 33 22",
+				serviceName: "VIP Kompleks (Soch + Soqol)",
+				price: 110000,
+				date: "2026-11-10",
+				time: "15:30",
+				status: "Kutilmoqda"
+			},
+			{
+				id: "bk-3",
+				barberId: "barber-1",
+				barberName: "Barber Express Studio",
+				clientName: "Sherzod Jo'rayev",
+				clientPhone: "+998 99 888 77 66",
+				serviceName: "Soqol Tekislash",
+				price: 40000,
+				date: "2026-11-10",
+				time: "17:00",
+				status: "Kutilmoqda"
+			}
+		]
+
+		const initialCrmClients = [
+			{ id: "c1", barberId: "barber-1", name: "Azizbek Rahimov", phone: "+998 94 444 33 22", visits: 6, ltv: 360000, daysAgo: 26 },
+			{ id: "c2", barberId: "barber-1", name: "Javohir Qosimov", phone: "+998 90 999 11 22", visits: 4, ltv: 240000, daysAgo: 31 },
+			{ id: "c3", barberId: "barber-1", name: "Jamshid Aliyev", phone: "+998 93 111 22 33", visits: 3, ltv: 180000, daysAgo: 22 },
+			{ id: "c4", barberId: "barber-1", name: "Sardor Azimov", phone: "+998 90 123 45 67", visits: 8, ltv: 520000, daysAgo: 4 },
+			{ id: "c5", barberId: "barber-1", name: "Umid Vohidov", phone: "+998 97 456 78 90", visits: 2, ltv: 120000, daysAgo: 14 }
+		]
+
+		let barbers = JSON.parse(localStorage.getItem('orda_barbers')) || initialBarbers
+		let bookings = JSON.parse(localStorage.getItem('orda_bookings')) || initialBookings
+		let crmClients = JSON.parse(localStorage.getItem('orda_crm_clients')) || initialCrmClients
+
+		let currentUser = JSON.parse(localStorage.getItem('orda_current_user')) || {
+			role: 'client',
+			name: 'Sardor Azimov',
+			phone: '+998 90 123 45 67',
+			barberId: 'barber-1'
+		}
+
+		function saveData() {
+			localStorage.setItem('orda_barbers', JSON.stringify(barbers))
+			localStorage.setItem('orda_bookings', JSON.stringify(bookings))
+			localStorage.setItem('orda_crm_clients', JSON.stringify(crmClients))
+			localStorage.setItem('orda_current_user', JSON.stringify(currentUser))
+		}
+
+		function showToast(message) {
+			const toast = document.getElementById('appToast')
+			document.getElementById('toastMsg').innerText = message
+			toast.classList.remove('translate-y-20', 'opacity-0')
+			setTimeout(() => {
+				toast.classList.add('translate-y-20', 'opacity-0')
+			}, 3500)
+		}
+
+		function switchView(viewName) {
+			document.getElementById('viewClient').classList.add('hidden')
+			document.getElementById('viewBarber').classList.add('hidden')
+			document.getElementById('viewAdmin').classList.add('hidden')
+
+			if (viewName === 'client') {
+				document.getElementById('viewClient').classList.remove('hidden')
+				renderBarbersList()
+				renderClientOrders()
+			} else if (viewName === 'barber') {
+				document.getElementById('viewBarber').classList.remove('hidden')
+				renderBarberDashboard()
+			} else if (viewName === 'admin') {
+				document.getElementById('viewAdmin').classList.remove('hidden')
+				renderAdminDashboard()
+			}
+			updateUserBadge()
+			applyTranslations()
+		}
+
+		function updateUserBadge() {
+			const badge = document.getElementById('userBadge')
+			const authBtn = document.getElementById('authBtn')
+			const logoutBtn = document.getElementById('logoutBtn')
+			const nameElem = document.getElementById('badgeName')
+			const roleElem = document.getElementById('badgeRole')
+			const avatarElem = document.getElementById('badgeAvatar')
+			const dict = i18n[currentLang] || i18n.uz
+
+			if (currentUser) {
+				badge.classList.remove('hidden')
+				badge.classList.add('flex')
+				logoutBtn.classList.remove('hidden')
+				authBtn.classList.add('hidden')
+
+				nameElem.innerText = currentUser.name
+				avatarElem.innerText = currentUser.name.charAt(0).toUpperCase()
+
+				if (currentUser.role === 'client') {
+					roleElem.innerText = (currentLang === 'uz' ? 'Mijoz' : currentLang === 'ru' ? 'Клиент' : 'Client')
+					roleElem.className = "text-[10px] text-zinc-400 font-medium"
+				} else if (currentUser.role === 'barber') {
+					roleElem.innerText = "Sartarosh CRM"
+					roleElem.className = "text-[10px] text-amber-500 dark:text-amber-400 font-medium"
+				} else if (currentUser.role === 'admin') {
+					roleElem.innerText = dict.role_admin_demo
+					roleElem.className = "text-[10px] text-amber-500 dark:text-amber-400 font-medium"
+				}
+			} else {
+				badge.classList.add('hidden')
+				badge.classList.remove('flex')
+				logoutBtn.classList.add('hidden')
+				authBtn.classList.remove('hidden')
+			}
+		}
+
+		function quickLogin(role) {
+			if (role === 'client') {
+				currentUser = {
+					role: 'client',
+					name: 'Sardor Azimov',
+					phone: '+998 90 123 45 67'
+				}
+				switchView('client')
+				showToast(currentLang === 'uz' ? "Mijoz profiliga o'tildi (Sardor Azimov)" : currentLang === 'ru' ? "Переключено на клиента (Сардор Азимов)" : "Switched to Client profile (Sardor Azimov)")
+			} else if (role === 'barber') {
+				currentUser = {
+					role: 'barber',
+					name: 'Rustam Karimov',
+					barberId: 'barber-1',
+					salonName: 'Barber Express Studio'
+				}
+				switchView('barber')
+				showToast(currentLang === 'uz' ? "Sartarosh kabinetiga o'tildi (Rustam Usta)" : currentLang === 'ru' ? "Переключено на барбера (Рустам)" : "Switched to Barber dashboard (Rustam Karimov)")
+			} else if (role === 'admin') {
+				currentUser = {
+					role: 'admin',
+					name: (currentLang === 'uz' ? 'Tizim Boshqaruvi' : currentLang === 'ru' ? 'Управление Системой' : 'System Administration')
+				}
+				switchView('admin')
+				showToast(currentLang === 'uz' ? "Boshqaruv va Monitoring paneliga o'tildi" : currentLang === 'ru' ? "Переключено на Панель Управления" : "Switched to Administration Panel")
+			}
+			saveData()
+		}
+
+		function logout() {
+			currentUser = null
+			updateUserBadge()
+			switchView('client')
+			showToast(currentLang === 'uz' ? "Tizimdan muvaffaqiyatli chiqildi" : currentLang === 'ru' ? "Вы вышли из системы" : "Logged out successfully")
+			saveData()
+		}
+
+		function navigateHome() {
+			if (currentUser && currentUser.role === 'barber') {
+				switchView('barber')
+			} else if (currentUser && currentUser.role === 'admin') {
+				switchView('admin')
+			} else {
+				switchView('client')
+			}
+		}
+
+		// ==================== 4. MIJOZ PORTALI ====================
+		function renderBarbersList(filteredList = null) {
+			const container = document.getElementById('barberCardsContainer')
+			const list = filteredList || barbers
+			const dict = i18n[currentLang] || i18n.uz
+
+			document.getElementById('barberCountBadge').innerText = `${list.length} ${currentLang === 'uz' ? 'ta salon mavjud' : currentLang === 'ru' ? 'салонов доступно' : 'salons available'}`
+
+			if (list.length === 0) {
+				container.innerHTML = `<div class="col-span-3 text-center py-12 text-zinc-500 text-xs">Hech qanday salon topilmadi.</div>`
+				return
+			}
+
+			container.innerHTML = list.map(b => `
+        <div class="glass-panel p-5 rounded-3xl border border-zinc-200 dark:border-white/10 hover:border-amber-400/40 transition group flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div>
+                <h3 class="text-base font-bold dark:text-white text-zinc-950 group-hover:text-amber-500 dark:group-hover:text-amber-400 transition">${b.salonName}</h3>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5"><i class="fa-solid fa-user-tie text-[11px] text-amber-500 dark:text-amber-400"></i> ${currentLang === 'uz' ? 'Usta' : currentLang === 'ru' ? 'Мастер' : 'Master'}: <strong class="dark:text-white text-zinc-900">${b.masterName}</strong></p>
+              </div>
+              <div class="px-2.5 py-1 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-500 dark:text-amber-400 font-bold text-xs flex items-center gap-1">
+                <i class="fa-solid fa-star text-[10px]"></i>
+                <span>${b.rating}</span>
+                <span class="text-[10px] text-zinc-400">(${b.reviewsCount})</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 mb-4">
+              <i class="fa-solid fa-location-dot text-amber-500 dark:text-amber-400 text-[11px]"></i>
+              <span>${b.district}, ${b.address}</span>
+            </div>
+
+            <!-- Xizmatlar vitrinasi -->
+            <div class="space-y-1.5 mb-5">
+              <p class="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">${dict.popular_services}</p>
+              ${b.services.slice(0, 3).map(s => `
+                <div class="flex justify-between items-center text-xs p-2 rounded-xl bg-black/5 dark:bg-white/5 border border-zinc-200 dark:border-white/5">
+                  <span class="dark:text-zinc-200 text-zinc-800 font-medium">${s.name}</span>
+                  <span class="font-bold text-amber-500 dark:text-amber-400">${s.price.toLocaleString()} so'm</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <button onclick="openBookingModal('${b.id}')" class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-calendar-plus"></i>
+            <span>${dict.btn_book_time}</span>
+          </button>
+        </div>
+      `).join('')
+		}
+
+		function filterBarbers() {
+			const query = document.getElementById('barberSearchInput').value.toLowerCase()
+			const district = document.getElementById('districtFilter').value
+
+			const filtered = barbers.filter(b => {
+				const matchesQuery = b.salonName.toLowerCase().includes(query) || b.masterName.toLowerCase().includes(query) || b.address.toLowerCase().includes(query)
+				const matchesDistrict = district === 'all' || b.district === district
+				return matchesQuery && matchesDistrict
+			})
+
+			renderBarbersList(filtered)
+		}
+
+		function renderClientOrders() {
+			const section = document.getElementById('clientOrdersSection')
+			const list = document.getElementById('clientOrdersList')
+
+			if (!currentUser || currentUser.role !== 'client') {
+				section.classList.add('hidden')
+				return
+			}
+
+			const myBookings = bookings.filter(b => b.clientPhone === currentUser.phone || b.clientName === currentUser.name)
+
+			if (myBookings.length === 0) {
+				section.classList.add('hidden')
+				return
+			}
+
+			section.classList.remove('hidden')
+			list.innerHTML = myBookings.map(b => `
+        <div class="p-3.5 rounded-2xl glass-card flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs border border-zinc-200 dark:border-white/5">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-500 dark:text-amber-400 flex items-center justify-center text-base">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <div>
+              <p class="font-bold dark:text-white text-zinc-950 text-sm">${b.barberName}</p>
+              <p class="text-zinc-500 dark:text-zinc-400">${b.serviceName} • <strong class="text-amber-500 dark:text-amber-400">${b.price.toLocaleString()} so'm</strong></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 justify-between sm:justify-end">
+            <div class="text-right">
+              <p class="font-bold dark:text-zinc-200 text-zinc-800">${b.date}</p>
+              <p class="text-[11px] text-amber-500 dark:text-amber-400">Soat: ${b.time}</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${b.status === 'Tasdiqlangan' ? 'bg-amber-400/20 text-amber-500 dark:text-amber-300 border border-amber-400/30' :
+					b.status === 'Yakunlandi' ? 'bg-black/10 dark:bg-white/10 dark:text-zinc-300 text-zinc-700' :
+						'bg-zinc-800 text-zinc-400'
+				}">${b.status}</span>
+          </div>
+        </div>
+      `).join('')
+		}
+
+		// ==================== 5. BRON QILISH ====================
+		function openBookingModal(barberId) {
+			const barber = barbers.find(b => b.id === barberId)
+			if (!barber) return
+
+			document.getElementById('bookingBarberId').value = barber.id
+			document.getElementById('modalBarberName').innerText = barber.salonName
+			document.getElementById('modalBarberAddress').innerText = `${barber.district}, ${barber.address} (${barber.masterName})`
+
+			const today = new Date().toISOString().split('T')[0]
+			const dateInput = document.getElementById('bookingDate')
+			dateInput.value = today
+			dateInput.min = today
+
+			if (currentUser && currentUser.role === 'client') {
+				document.getElementById('bookingClientName').value = currentUser.name || ''
+				document.getElementById('bookingClientPhone').value = currentUser.phone || ''
+			}
+
+			const servicesList = document.getElementById('modalServicesList')
+			servicesList.innerHTML = barber.services.map((s, idx) => `
+        <label class="flex items-center justify-between p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-zinc-200 dark:border-white/10 hover:border-amber-400/50 cursor-pointer text-xs transition">
+          <div class="flex items-center gap-2.5">
+            <input type="radio" name="selectedService" value="${s.name}" data-price="${s.price}" ${idx === 0 ? 'checked' : ''} class="accent-amber-400">
+            <div>
+              <p class="font-bold dark:text-white text-zinc-950">${s.name}</p>
+              <p class="text-[10px] text-zinc-400">${s.duration}</p>
+            </div>
+          </div>
+          <span class="font-bold text-amber-500 dark:text-amber-400">${s.price.toLocaleString()} so'm</span>
+        </label>
+      `).join('')
+
+			document.getElementById('bookingModal').classList.remove('hidden')
+		}
+
+		function closeBookingModal() {
+			document.getElementById('bookingModal').classList.add('hidden')
+		}
+
+		function handleBookingSubmit(e) {
+			e.preventDefault()
+			const barberId = document.getElementById('bookingBarberId').value
+			const barber = barbers.find(b => b.id === barberId)
+			const selectedRadio = document.querySelector('input[name="selectedService"]:checked')
+
+			if (!selectedRadio) {
+				showToast(currentLang === 'uz' ? "Iltimos, xizmat turini tanlang!" : "Пожалуйста, выберите услугу!")
+				return
+			}
+
+			const clientName = document.getElementById('bookingClientName').value
+			const clientPhone = document.getElementById('bookingClientPhone').value
+			const date = document.getElementById('bookingDate').value
+			const time = document.getElementById('bookingTime').value
+
+			const newBooking = {
+				id: "bk-" + Date.now(),
+				barberId: barber.id,
+				barberName: barber.salonName,
+				clientName: clientName,
+				clientPhone: clientPhone,
+				serviceName: selectedRadio.value,
+				price: parseInt(selectedRadio.dataset.price),
+				date: date,
+				time: time,
+				status: "Kutilmoqda"
+			}
+
+			bookings.unshift(newBooking)
+
+			let client = crmClients.find(c => c.barberId === barber.id && c.phone === clientPhone)
+			if (client) {
+				client.visits += 1
+				client.ltv += newBooking.price
+				client.daysAgo = 0
+			} else {
+				crmClients.push({
+					id: "c-" + Date.now(),
+					barberId: barber.id,
+					name: clientName,
+					phone: clientPhone,
+					visits: 1,
+					ltv: newBooking.price,
+					daysAgo: 0
+				})
+			}
+
+			saveData()
+			closeBookingModal()
+			showToast(currentLang === 'uz' ? "Vaqt muvaffaqiyatli band qilindi!" : currentLang === 'ru' ? "Время успешно забронировано!" : "Appointment successfully booked!")
+			renderClientOrders()
+		}
+
+		// ==================== 6. SARTAROSH KABINETI (CRM) ====================
+		function renderBarberDashboard() {
+			const barberId = (currentUser && currentUser.barberId) ? currentUser.barberId : "barber-1"
+			const barber = barbers.find(b => b.id === barberId) || barbers[0]
+
+			document.getElementById('barberStudioName').innerText = barber.salonName
+			document.getElementById('barberMasterName').innerText = `Usta: ${barber.masterName} | Tel: ${barber.phone}`
+
+			const barberBookings = bookings.filter(b => b.barberId === barber.id)
+			const todayTotal = barberBookings
+				.filter(b => b.status === 'Yakunlandi' || b.status === 'Tasdiqlangan')
+				.reduce((sum, b) => sum + b.price, 0)
+
+			document.getElementById('crmTodayIncome').innerText = `${todayTotal.toLocaleString()} so'm`
+			document.getElementById('crmMonthlyRevenue').innerText = `${barber.monthlyRevenue.toLocaleString()} so'm`
+			document.getElementById('crmMonthlyExpenses').innerText = `${barber.monthlyExpenses.toLocaleString()} so'm`
+
+			const netProfit = barber.monthlyRevenue - barber.monthlyExpenses
+			document.getElementById('crmNetProfit').innerText = `${netProfit.toLocaleString()} so'm`
+
+			const pendingBookings = barberBookings.filter(b => b.status !== 'Yakunlandi')
+			document.getElementById('crmPendingCount').innerText = `${pendingBookings.length} ${currentLang === 'uz' ? 'ta kutilmoqda' : currentLang === 'ru' ? 'ожидают' : 'pending'}`
+
+			const ordersContainer = document.getElementById('barberOrdersContainer')
+			if (pendingBookings.length === 0) {
+				ordersContainer.innerHTML = `<p class="text-xs text-zinc-500 py-6 text-center">Hozircha yangi navbatlar yo'q.</p>`
+			} else {
+				ordersContainer.innerHTML = pendingBookings.map(b => `
+          <div class="p-4 rounded-2xl glass-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border border-zinc-200 dark:border-white/5">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-500 dark:text-amber-400 flex items-center justify-center font-bold text-sm">
+                ${b.time}
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold dark:text-white text-zinc-950 text-sm">${b.clientName}</h4>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full ${b.status === 'Tasdiqlangan' ? 'bg-amber-400/20 text-amber-500 dark:text-amber-300 border border-amber-400/30' : 'bg-black/10 dark:bg-white/10 dark:text-zinc-300 text-zinc-700'}">${b.status}</span>
+                </div>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                  <i class="fa-solid fa-phone text-[10px] text-amber-500 dark:text-amber-400"></i> ${b.clientPhone} • ${b.serviceName} (<span class="text-amber-500 dark:text-amber-400 font-bold">${b.price.toLocaleString()} so'm</span>)
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+              ${b.status === 'Kutilmoqda' ? `
+                <button onclick="updateBookingStatus('${b.id}', 'Tasdiqlangan')" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs transition">
+                  ${currentLang === 'uz' ? 'Tasdiqlash' : currentLang === 'ru' ? 'Подтвердить' : 'Confirm'}
+                </button>
+              ` : `
+                <button onclick="updateBookingStatus('${b.id}', 'Yakunlandi')" class="px-3 py-1.5 rounded-xl bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 dark:text-white text-zinc-900 font-bold text-xs border border-zinc-200 dark:border-white/10 transition">
+                  <i class="fa-solid fa-check text-amber-500 dark:text-amber-400"></i> ${currentLang === 'uz' ? 'Xizmat Yakunlandi' : currentLang === 'ru' ? 'Завершено' : 'Completed'}
+                </button>
+              `}
+            </div>
+          </div>
+        `).join('')
+			}
+
+			renderSmartRetention(barber.id)
+			renderCrmClients()
+		}
+
+		function updateBookingStatus(bookingId, newStatus) {
+			const b = bookings.find(item => item.id === bookingId)
+			if (b) {
+				b.status = newStatus
+				if (newStatus === 'Yakunlandi') {
+					const barber = barbers.find(bar => bar.id === b.barberId)
+					if (barber) {
+						barber.monthlyRevenue += b.price
+					}
+				}
+				saveData()
+				renderBarberDashboard()
+				showToast(`Buyurtma holati: ${newStatus}`)
+			}
+		}
+
+		// SMART RETENTION
+		function renderSmartRetention(barberId) {
+			const overdueList = document.getElementById('overdueClientsList')
+			const filtered = crmClients.filter(c => c.barberId === barberId && c.daysAgo >= 20)
+			const dict = i18n[currentLang] || i18n.uz
+
+			if (filtered.length === 0) {
+				overdueList.innerHTML = `<p class="text-xs text-zinc-500 text-center py-4">Barcha mijozlaringiz yangi kelgan.</p>`
+				return
+			}
+
+			overdueList.innerHTML = filtered.map(c => `
+        <div class="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-zinc-200 dark:border-white/5 flex items-center justify-between text-xs">
+          <div>
+            <p class="font-bold dark:text-white text-zinc-950">${c.name}</p>
+            <p class="text-[11px] text-amber-500 dark:text-amber-400"><i class="fa-solid fa-clock"></i> ${c.daysAgo} ${dict.days_ago_suffix}</p>
+          </div>
+          <button onclick="sendSingleSms('${c.name}', '${c.phone}', ${c.daysAgo})" class="px-3 py-1 rounded-lg bg-amber-400/10 text-amber-500 dark:text-amber-300 hover:bg-amber-400/20 border border-amber-400/30 transition text-[11px] font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-comment-sms"></i> ${dict.btn_remind}
+          </button>
+        </div>
+      `).join('')
+		}
+
+		function sendSingleSms(name, phone, days) {
+			const barberId = (currentUser && currentUser.barberId) ? currentUser.barberId : "barber-1"
+			const barber = barbers.find(b => b.id === barberId)
+			const salonTitle = barber ? barber.salonName : "Barber Express"
+
+			let text = ""
+			if (currentLang === 'uz') {
+				text = `Assalomu alaykum ${name}! ${salonTitle}dan usta sizni eslamoqda. Oxirgi marta soch oldirganingizga ${days} kun bo'ldi. Sochingiz o'sib qoldi, sizni kutmoqdamiz. Qulay vaqtga bron qiling: orda.uz/b/${barberId}`
+			} else if (currentLang === 'ru') {
+				text = `Здравствуйте, ${name}! Мастер из ${salonTitle} напоминает о стрижке. Прошло уже ${days} дней с последнего визита. Волосы отросли, ждем вас! Онлайн-запись: orda.uz/b/${barberId}`
+			} else {
+				text = `Hello ${name}! Your master at ${salonTitle} misses you. It has been ${days} days since your last cut. Time for a fresh haircut! Book now: orda.uz/b/${barberId}`
+			}
+
+			document.getElementById('smsModalHeader').innerText = `${name} | SMS Reminder`
+			document.getElementById('smsTextBody').innerText = text
+			document.getElementById('smsModal').classList.remove('hidden')
+		}
+
+		function sendBulkSmsNotification() {
+			const barberId = (currentUser && currentUser.barberId) ? currentUser.barberId : "barber-1"
+			const overdue = crmClients.filter(c => c.barberId === barberId && c.daysAgo >= 20)
+
+			if (overdue.length === 0) {
+				showToast("Hozirda eslatma yuboriladigan mijozlar yo'q!")
+				return
+			}
+
+			document.getElementById('smsModalHeader').innerText = `Bulk SMS (${overdue.length} clients)`
+			document.getElementById('smsTextBody').innerText = `[Bulk Dispatch]: ${overdue.length} clients received automated haircut reminder notifications.`
+			document.getElementById('smsModal').classList.remove('hidden')
+		}
+
+		function closeSmsModal() {
+			document.getElementById('smsModal').classList.add('hidden')
+		}
+
+		// CRM Mijozlar jadvali
+		function renderCrmClients() {
+			const barberId = (currentUser && currentUser.barberId) ? currentUser.barberId : "barber-1"
+			const query = (document.getElementById('crmClientSearch')?.value || '').toLowerCase()
+			const tbody = document.getElementById('crmClientsTableBody')
+
+			const clients = crmClients.filter(c =>
+				c.barberId === barberId &&
+				(c.name.toLowerCase().includes(query) || c.phone.includes(query))
+			)
+
+			if (clients.length === 0) {
+				tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-zinc-500">Mijoz topilmadi.</td></tr>`
+				return
+			}
+
+			tbody.innerHTML = clients.map(c => `
+        <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
+          <td class="py-3 px-4 font-bold dark:text-white text-zinc-950">${c.name}</td>
+          <td class="py-3 px-4 text-zinc-500 font-mono">${c.phone}</td>
+          <td class="py-3 px-4 text-center font-bold dark:text-zinc-200 text-zinc-800">${c.visits}</td>
+          <td class="py-3 px-4 font-bold text-amber-500 dark:text-amber-400">${c.ltv.toLocaleString()} so'm</td>
+          <td class="py-3 px-4 text-zinc-500 dark:text-zinc-400">${c.daysAgo === 0 ? 'Bugun' : c.daysAgo + ' kun oldin'}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${c.daysAgo >= 20 ? 'bg-amber-400/20 text-amber-500 dark:text-amber-300 border border-amber-400/30' : 'bg-black/10 dark:bg-white/10 dark:text-zinc-300 text-zinc-700'
+				}">
+              ${c.daysAgo >= 20 ? (currentLang === 'uz' ? "Soch o'sgan" : currentLang === 'ru' ? "Отросли" : "Needs Cut") : (currentLang === 'uz' ? "Yangi kelgan" : currentLang === 'ru' ? "Недавно" : "Fresh")}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-right">
+            <button onclick="sendSingleSms('${c.name}', '${c.phone}', ${c.daysAgo})" class="text-amber-500 dark:text-amber-400 hover:underline font-bold">
+              <i class="fa-solid fa-paper-plane"></i> SMS
+            </button>
+          </td>
+        </tr>
+      `).join('')
+		}
+
+		// Offlayn mijoz kiritish
+		function openAddOfflineClientModal() {
+			document.getElementById('offlineClientModal').classList.remove('hidden')
+		}
+		function closeAddOfflineClientModal() {
+			document.getElementById('offlineClientModal').classList.add('hidden')
+		}
+		function handleOfflineClientSubmit(e) {
+			e.preventDefault()
+			const barberId = (currentUser && currentUser.barberId) ? currentUser.barberId : "barber-1"
+			const name = document.getElementById('offClientName').value
+			const phone = document.getElementById('offClientPhone').value
+			const price = parseInt(document.getElementById('offClientPrice').value)
+
+			const barber = barbers.find(b => b.id === barberId)
+			if (barber) {
+				barber.monthlyRevenue += price
+			}
+
+			let client = crmClients.find(c => c.barberId === barberId && c.phone === phone)
+			if (client) {
+				client.visits += 1
+				client.ltv += price
+				client.daysAgo = 0
+			} else {
+				crmClients.push({
+					id: "c-" + Date.now(),
+					barberId: barberId,
+					name: name,
+					phone: phone,
+					visits: 1,
+					ltv: price,
+					daysAgo: 0
+				})
+			}
+
+			saveData()
+			closeAddOfflineClientModal()
+			renderBarberDashboard()
+			showToast(`${name} bazaga kiritildi va kassaga +${price.toLocaleString()} so'm qo'shildi!`)
+		}
+
+		// Xarajat qo'shish
+		function openAddExpenseModal() {
+			document.getElementById('addExpenseModal').classList.remove('hidden')
+		}
+		function closeAddExpenseModal() {
+			document.getElementById('addExpenseModal').classList.add('hidden')
+		}
+		function handleAddExpenseSubmit(e) {
+			e.preventDefault()
+			const barberId = (currentUser && currentUser.barberId) ? currentUser.barberId : "barber-1"
+			const amount = parseInt(document.getElementById('expenseAmount').value)
+			const reason = document.getElementById('expenseReason').value
+
+			const barber = barbers.find(b => b.id === barberId)
+			if (barber) {
+				barber.monthlyExpenses += amount
+			}
+
+			saveData()
+			closeAddExpenseModal()
+			renderBarberDashboard()
+			showToast(`Xarajat: ${reason} (-${amount.toLocaleString()} so'm)`)
+		}
+
+		// Xizmatlar boshqaruvi
+		function openManageServicesModal() {
+			const barberId = (currentUser && currentUser.barberId) ? currentUser.barberId : "barber-1"
+			const barber = barbers.find(b => b.id === barberId)
+			if (!barber) return
+
+			const container = document.getElementById('barberServicesCrudList')
+			container.innerHTML = barber.services.map((s, idx) => `
+        <div class="flex items-center justify-between p-2 rounded-xl bg-black/5 dark:bg-white/5 text-xs">
+          <div>
+            <p class="font-bold dark:text-white text-zinc-950">${s.name}</p>
+            <p class="text-[10px] text-amber-500 dark:text-amber-400">${s.price.toLocaleString()} so'm</p>
+          </div>
+          <button onclick="deleteBarberService(${idx})" class="text-zinc-400 hover:text-red-400 px-2 py-1">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      `).join('')
+
+			document.getElementById('manageServicesModal').classList.remove('hidden')
+		}
+		function closeManageServicesModal() {
+			document.getElementById('manageServicesModal').classList.add('hidden')
+		}
+		function addNewBarberService() {
+			const barberId = (currentUser && currentUser.barberId) ? currentUser.barberId : "barber-1"
+			const name = document.getElementById('newServiceName').value
+			const price = parseInt(document.getElementById('newServicePrice').value)
+
+			if (!name || isNaN(price)) {
+				showToast("Nom va narxni to'liq kiriting!")
+				return
+			}
+
+			const barber = barbers.find(b => b.id === barberId)
+			if (barber) {
+				barber.services.push({
+					id: "s-" + Date.now(),
+					name: name,
+					price: price,
+					duration: "30 daq"
+				})
+				saveData()
+				openManageServicesModal()
+				renderBarbersList()
+				showToast("Yangi xizmat qo'shildi!")
+			}
+		}
+		function deleteBarberService(index) {
+			const barberId = (currentUser && currentUser.barberId) ? currentUser.barberId : "barber-1"
+			const barber = barbers.find(b => b.id === barberId)
+			if (barber) {
+				barber.services.splice(index, 1)
+				saveData()
+				openManageServicesModal()
+				renderBarbersList()
+				showToast("Xizmat o'chirildi.")
+			}
+		}
+
+		// ==================== 7. TIZIM BOSHQARUVI / MONITORING ====================
+		function renderAdminDashboard() {
+			document.getElementById('adminTotalBarbers').innerText = `${barbers.length} ta`
+
+			const totalRevenue = barbers.reduce((sum, b) => sum + (b.monthlyRevenue || 0), 0)
+			document.getElementById('adminTotalRevenue').innerText = `${totalRevenue.toLocaleString()} so'm`
+
+			document.getElementById('adminTotalBookings').innerText = `${bookings.length + 3417} ta`
+
+			const tbody = document.getElementById('adminBarbersTableBody')
+			tbody.innerHTML = barbers.map(b => `
+        <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
+          <td class="py-3 px-4">
+            <p class="font-bold dark:text-white text-zinc-950">${b.salonName}</p>
+            <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Usta: ${b.masterName}</p>
+          </td>
+          <td class="py-3 px-4 text-zinc-600 dark:text-zinc-300">${b.district}</td>
+          <td class="py-3 px-4 text-zinc-500 font-mono">${b.phone}</td>
+          <td class="py-3 px-4 font-bold text-amber-500 dark:text-amber-400">${b.monthlyRevenue.toLocaleString()} so'm</td>
+          <td class="py-3 px-4 text-amber-500 dark:text-amber-400 font-bold">★ ${b.rating}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${b.verified ? 'bg-amber-400/20 text-amber-500 dark:text-amber-300 border border-amber-400/30' : 'bg-black/10 dark:bg-white/10 dark:text-zinc-400 text-zinc-600'
+				}">
+              ${b.verified ? 'Tasdiqlangan' : 'Tekshiruvda'}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-right">
+            <button onclick="toggleBarberVerification('${b.id}')" class="px-2.5 py-1 rounded-lg text-xs font-semibold ${b.verified ? 'bg-black/10 dark:bg-white/10 dark:text-zinc-300 text-zinc-800' : 'bg-amber-400 text-black'
+				}">
+              ${b.verified ? 'Bloklash' : 'Tasdiqlash'}
+            </button>
+          </td>
+        </tr>
+      `).join('')
+		}
+
+		function toggleBarberVerification(id) {
+			const barber = barbers.find(b => b.id === id)
+			if (barber) {
+				barber.verified = !barber.verified
+				saveData()
+				renderAdminDashboard()
+				showToast(`${barber.salonName} holati yangilandi!`)
+			}
+		}
+
+		function exportCityReport() {
+			showToast(currentLang === 'uz' ? "Shahar monitoring hisoboti tayyorlandi (PDF)" : "Отчет городского мониторинга сформирован (PDF)")
+		}
+
+		// ==================== 8. AUTH ====================
+		function openAuthModal() {
+			document.getElementById('authModal').classList.remove('hidden')
+		}
+		function closeAuthModal() {
+			document.getElementById('authModal').classList.add('hidden')
+		}
+		function switchAuthTab(tab) {
+			if (tab === 'login') {
+				document.getElementById('tabLoginBtn').className = "flex-1 py-2 rounded-lg font-bold bg-amber-400 text-black transition"
+				document.getElementById('tabRegisterBtn').className = "flex-1 py-2 rounded-lg font-bold text-zinc-400 hover:text-white transition"
+				document.getElementById('loginForm').classList.remove('hidden')
+				document.getElementById('registerForm').classList.add('hidden')
+			} else {
+				document.getElementById('tabRegisterBtn').className = "flex-1 py-2 rounded-lg font-bold bg-amber-400 text-black transition"
+				document.getElementById('tabLoginBtn').className = "flex-1 py-2 rounded-lg font-bold text-zinc-400 hover:text-white transition"
+				document.getElementById('registerForm').classList.remove('hidden')
+				document.getElementById('loginForm').classList.add('hidden')
+			}
+		}
+
+		function handleLoginSubmit(e) {
+			e.preventDefault()
+			const u = document.getElementById('loginUsername').value.trim()
+			const p = document.getElementById('loginPassword').value.trim()
+
+			if (u === 'admin' && p === 'orda2026') {
+				currentUser = { role: 'admin', name: "Tizim Boshqaruvi" }
+				saveData()
+				closeAuthModal()
+				switchView('admin')
+				showToast("Monitoring va Boshqaruv paneliga xush kelibsiz!")
+				return
+			}
+
+			const barber = barbers.find(b => b.login === u && b.password === p)
+			if (barber) {
+				currentUser = {
+					role: 'barber',
+					name: barber.masterName,
+					barberId: barber.id,
+					salonName: barber.salonName
+				}
+				saveData()
+				closeAuthModal()
+				switchView('barber')
+				showToast(`Xush kelibsiz, ${barber.masterName}!`)
+				return
+			}
+
+			currentUser = {
+				role: 'client',
+				name: u,
+				phone: u.startsWith('+') ? u : '+998 90 ' + Math.floor(1000000 + Math.random() * 9000000)
+			}
+			saveData()
+			closeAuthModal()
+			switchView('client')
+			showToast(`Xush kelibsiz, ${u}!`)
+		}
+
+		function handleRegisterSubmit(e) {
+			e.preventDefault()
+			const salon = document.getElementById('regSalonName').value
+			const master = document.getElementById('regMasterName').value
+			const district = document.getElementById('regDistrict').value
+			const phone = document.getElementById('regPhone').value
+			const login = document.getElementById('regLogin').value
+			const pass = document.getElementById('regPassword').value
+
+			const newBarber = {
+				id: "barber-" + Date.now(),
+				salonName: salon,
+				masterName: master,
+				phone: phone,
+				district: district,
+				address: `${district} tumani markazi`,
+				login: login,
+				password: pass,
+				rating: 5.0,
+				reviewsCount: 1,
+				verified: true,
+				monthlyRevenue: 0,
+				monthlyExpenses: 0,
+				services: [
+					{ id: "s-init-1", name: "Klassik Soch Olish", price: 50000, duration: "30 daq" },
+					{ id: "s-init-2", name: "Soqol Tekislash", price: 30000, duration: "20 daq" }
+				]
+			}
+
+			barbers.unshift(newBarber)
+			currentUser = {
+				role: 'barber',
+				name: master,
+				barberId: newBarber.id,
+				salonName: salon
+			}
+
+			saveData()
+			closeAuthModal()
+			switchView('barber')
+			showToast(`"${salon}" tizimda faollashtirildi!`)
+		}
+
+		// Initsializatsiya
+		window.onload = function () {
+			initTheme()
+			setLanguage(currentLang)
+			if (currentUser && currentUser.role) {
+				switchView(currentUser.role)
+			} else {
+				switchView('client')
+			}
+		};
+	</script>
+</body>
+
+</html>
